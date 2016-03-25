@@ -30,11 +30,11 @@ public class HelloServlet extends HttpServlet {
 		
 		if(task != null) {
 			switch(task) {
-			case "show-config":
+			case "config":
 				target = "WEB-INF/jsp/config.jsp";
 				request.setAttribute("cfg", new HelloConfig());
 				break;
-			case "db-lookup":
+			case "lookup":
 				target = "WEB-INF/jsp/dblookup.jsp";
 				request.setAttribute("db", new DBLookup(new HelloConfig()));
 				break;
@@ -43,16 +43,6 @@ public class HelloServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(target);
 		dispatcher.forward(request, response);
-		
-		response.getWriter()
-		.append("<html>")
-		.append("<body leftmargin=50 rightmargin=50>\r\n")
-		.append("<h1>Hello World!</h1>")
-		.append("<br>")
-		.append("Served at: ")
-		.append(request.getContextPath())
-		.append("</body>")
-		.append("</html>");
 	}
 
 	/**
