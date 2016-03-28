@@ -1,7 +1,7 @@
 FROM jenkins
 
 COPY plugins.txt /usr/share/jenkins/ref/
-COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
+# COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 ENV MAVEN_VERSION 3.3.9
