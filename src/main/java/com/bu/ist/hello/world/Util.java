@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Util {
 
@@ -80,6 +82,76 @@ public class Util {
 	}
 	
 	/**
+	 * Get the content of an inputstream as a string.
+	 * @param in
+	 * @return
+	 */
+	public static String getStringFromInputStream(InputStream in) {
+		BufferedReader br = null;
+		PrintWriter pw = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(in));			
+			String inputLine;
+			StringWriter sb = new StringWriter();
+			pw = new PrintWriter(new BufferedWriter(sb));
+			while ((inputLine = br.readLine()) != null) {
+				pw.println(inputLine);
+			}
+			pw.flush();
+			return sb.toString();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally {
+			if(br != null) {
+				try {
+					br.close();
+				} 
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(pw != null) {
+				pw.close();
+			}
+		}		
+	}
+	
+	/**
+	 * Get the content of an inputstream as a string.
+	 * @param in
+	 * @return
+	 */
+	public static List<String> getListFromInputStream(InputStream in) {
+		BufferedReader br = null;
+		List<String> list = new ArrayList<String>();
+		try {
+			br = new BufferedReader(new InputStreamReader(in));			
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				list.add(inputLine);
+			}
+			return list;
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally {
+			if(br != null) {
+				try {
+					br.close();
+				} 
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+	}
+	
+	/**
 	 * Get the content of a file as a string.
 	 * @param in
 	 * @return
@@ -111,6 +183,35 @@ public class Util {
 				}
 			}
 		}		
+	}
+	
+	public static String getFileContent(String filepath) {
+		File f = new File(filepath);
+		if(!f.isFile()) {
+			System.out.println("ERROR! \"" + filepath + "\" does not exist!");
+			return null;
+		}
+		return getFileContent(f);
+	}
+	
+	public static String getFileContent(File f) {
+		try {
+			return getStringFromInputStream(new FileInputStream(f));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static List<String> getFileContentAsList(File f) {
+		try {
+			return getListFromInputStream(new FileInputStream(f));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
 	}
 	
 	public static String stackTraceToString(Throwable e) {

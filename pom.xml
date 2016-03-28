@@ -18,6 +18,11 @@
   	  		<artifactId>jstl</artifactId>
   	  		<version>1.2</version>
   	  	</dependency>
+  	  	<dependency>
+  	  		<groupId>org.kuali.rice</groupId>
+  	  		<artifactId>rice-core-impl</artifactId>
+  	  		<version>2.5.3.1509.0002-kualico</version>
+  	  	</dependency>
       </dependencies>
       
       <build>
