@@ -1,5 +1,5 @@
-github 1.18.1
-cobertura 1.9.7
-checkstyle 3.45
-findbugs 4.64
-docker-build-step 1.34
+github:1.18.1
+cobertura:1.9.7
+checkstyle:3.45
+findbugs:4.64
+docker-build-step:1.34
