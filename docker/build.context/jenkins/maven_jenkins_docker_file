@@ -18,7 +18,8 @@ ENV MAVEN_HOME /usr/share/maven
 USER jenkins
 
 # VOLUME /root/.m2
-VOLUME $M2_DIR
+ARG m2_dir
+VOLUME $m2_dir
 
 # CMD ["mvn"]
 
