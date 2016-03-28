@@ -1,0 +1,4 @@
+github 1.10
+cobertura 1.9.6
+checkstyle 3.40
+findbugs 4.57
