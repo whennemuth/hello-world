@@ -1,25 +1,38 @@
 FROM jenkins
+MAINTAINER Warren
 
+# Beef up the memory
+ENV JAVA_OPTS="-Xmx8192m"
+
+# Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
+# Jenkins will install plugins not already when the container starts.
 COPY plugins.txt /usr/share/jenkins/ref/
-# COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
-ENV MAVEN_VERSION 3.3.9
 
+# Have the jenkins logs written out to a mounted volume
+# Include the mount target directory when starting the container with a "-v" arg.
 USER root
+RUN mkdir -p /var/log/jenkins
+RUN chown -R  jenkins:jenkins /var/log/jenkins
+VOLUME /var/log/jenkins
+ENV JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log"
+# If not mounting a volume, you can still check the log from outside the container as follows:
+# exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
+# Build maven into the image.
+ENV MAVEN_VERSION 3.3.9
 RUN mkdir -p /usr/share/maven \
   && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
     | tar -xzC /usr/share/maven --strip-components=1 \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
 ENV MAVEN_HOME /usr/share/maven
-
-USER jenkins
 
 # VOLUME /root/.m2
 ARG m2_dir
 VOLUME $m2_dir
 
 # CMD ["mvn"]
+
+USER jenkins
 
