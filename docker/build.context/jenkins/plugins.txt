@@ -1,5 +1,14 @@
+github-api:1.69
+plain-credentials:1.1
+git:2.4.0
+token-macro:1.11
 github:1.18.1
+
 cobertura:1.9.7
+
+analysis-core:1.75
 checkstyle:3.45
 findbugs:4.64
+
+docker-commons:1.2
 docker-build-step:1.34
