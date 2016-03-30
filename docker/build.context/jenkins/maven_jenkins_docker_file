@@ -6,8 +6,8 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
-# COPY plugins.txt /usr/share/jenkins/ref/
-# RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
+COPY plugins.txt /usr/share/jenkins/ref/
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 
 # Have the jenkins logs written out to a mounted volume
