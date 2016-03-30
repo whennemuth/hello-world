@@ -5,14 +5,9 @@ MAINTAINER Warren
 ENV JAVA_OPTS="-Xmx8192m"
 
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console
-# NOTE: After the /var/jenkins_home VOLUME has been declared, nothing can be moved to it using the COPY command therefore
-#       COPY it to an non-mounted directory (/tmp) and RUN cp to get it into JENKINS_HOME
-COPY config.xml /tmp/
-COPY hudson.tasks.Maven.xml /tmp/
-COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /tmp/
-RUN cp /tmp/config.xml /var/jenkins_home/
-RUN cp /tmp/hudson.tasks.Maven.xml /var/jenkins_home/
-RUN cp /tmp/org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /var/jenkins_home/
+COPY config.xml /usr/share/jenkins/ref/
+COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
+COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
