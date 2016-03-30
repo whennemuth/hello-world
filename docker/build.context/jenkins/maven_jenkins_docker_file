@@ -4,11 +4,15 @@ MAINTAINER Warren
 # Beef up the memory
 ENV JAVA_OPTS="-Xmx8192m"
 
+# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console
+COPY config.xml /var/jenkins_home/
+COPY hudson.tasks.Maven.xml /var/jenkins_home/
+COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /var/jenkins_home/
+
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
 COPY plugins.txt /usr/share/jenkins/ref/
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
-
 
 # Have the jenkins logs written out to a mounted volume
 # Include the mount target directory when starting the container with a "-v" arg.
@@ -27,11 +31,6 @@ RUN mkdir -p /usr/share/maven \
     | tar -xzC /usr/share/maven --strip-components=1 \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
-
-# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console
-COPY config.xml /var/jenkins_home/config.xml
-COPY hudson.tasks.Maven.xml /var/jenkins_home/hudson.tasks.Maven.xml
-COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /var/jenkins_home/org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml
 
 # VOLUME /root/.m2
 ARG m2_dir
