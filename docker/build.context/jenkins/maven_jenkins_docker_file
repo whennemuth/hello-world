@@ -28,6 +28,11 @@ RUN mkdir -p /usr/share/maven \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
 
+# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console
+COPY config.xml /var/jenkins_home/config.xml
+COPY hudson.tasks.Maven.xml /var/jenkins_home/hudson.tasks.Maven.xml
+COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /var/jenkins_home/org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml
+
 # VOLUME /root/.m2
 ARG m2_dir
 VOLUME $m2_dir
