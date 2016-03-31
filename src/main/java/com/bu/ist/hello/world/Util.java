@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Util {
 
@@ -186,6 +187,7 @@ public class Util {
 	}
 	
 	public static String getFileContent(String filepath) {
+		filepath = filepath.replaceAll("\\\\", "/");
 		File f = new File(filepath);
 		if(!f.isFile()) {
 			System.out.println("ERROR! \"" + filepath + "\" does not exist!");
@@ -223,6 +225,29 @@ public class Util {
 		pw.flush();
 		String trace = sw.getBuffer().toString();
 		return trace;
+	}
+	
+	public static String rowsToHTML(List<Map<String, Object>> rows) {
+		StringBuilder s = new StringBuilder("<table cellpadding=3>\r\n");
+		boolean firstLoop = true;
+		for(Map<String, Object> row : rows) {
+			if(firstLoop) {
+				s.append("<tr>");
+				for(String col : row.keySet()) {
+					s.append("<th>").append(col).append("</th>");
+				}
+				s.append("</tr>");
+				firstLoop = false;
+			}
+			s.append("<tr>");
+			for(String col : row.keySet()) {
+				String val = String.valueOf(row.get(col));
+				s.append("<td>").append(val).append("</td>");
+			}			
+			s.append("</tr>");
+		}
+		s.append("</table>");
+		return s.toString();
 	}
 	
 	public static String concat(int end, String concat, String[] a) {

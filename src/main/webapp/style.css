@@ -1,10 +1,10 @@
 .wrapper {
 	height:90%; 
 	# border:solid 1px black; 
-	width:845px; 
+	width:1045px; 
 	position: absolute; 
 	left:50%; 
-	margin-left:-422px;	
+	margin-left:-522px;	
 }
 .header {
 	float: left;
@@ -13,7 +13,7 @@
 	font-weight:bold;
 	background-color: #efdcdc;
 	color: #9d4848;
-	width: 822px;
+	width: 1022px;
 	margin: 1px;
 	padding: 10px;
 	text-align:center;
@@ -36,7 +36,7 @@
 	font-family: arial;
 	font-size: 12px;
 	background-color: #efdcdc;
-	width: 600px;
+	width: 800px;
 	margin: 1px;
 	padding: 10px;
 	height: 90%;
@@ -49,8 +49,18 @@
 	font-size: 10px;
 	background-color: #efdcdc;
 	color: #9d4848;
-	width: 834px;
+	width: 1034px;
 	margin: 1px;
 	padding: 4px;
 	align: center;
+}
+
+th {
+	background-color: #cccccc;
+}
+
+#dbrows {
+	overflow: auto;
+	width: 780px;
+	height: 550px;
 }

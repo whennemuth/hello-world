@@ -2,6 +2,8 @@ package com.bu.ist.hello.world;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -12,7 +14,17 @@ public class HelloConfig {
 
 	private static final String CONFIG_FILE_PATH = ResourceUtils.CLASSPATH_URL_PREFIX + "META-INF/kc-config.xml";
 	private JAXBConfigImpl config;
-	private String content;
+	private static final String[] overridenPropertyNames = new String[] {
+			"application.host",	
+			"app.context.name",	
+			"datasource.driver.name",
+			"datasource.url",	
+			"datasource.username",	
+			"datasource.password",	
+			"datasource.ojb.platform",	
+			"kc.schemaspy.enabled"
+	};
+	private String overridenProperties;
 	private String env;
 	
 	public HelloConfig() {
@@ -28,14 +40,14 @@ public class HelloConfig {
 	        // Stop Quartz from "phoning home" on every startup
 	        System.setProperty("org.terracotta.quartz.skipUpdateCheck", "true");
 	        if(initialize()) {
-	        	setContent();
+	        	setOverridenProperties();
 	        }
 		} 
 		catch (Exception e) {
-			content = Util.stackTraceToString(e);
+			overridenProperties = Util.stackTraceToString(e);
 		}
-		if(content == null) {
-			content = "No configuration file found";
+		if(overridenProperties == null) {
+			overridenProperties = "No configuration file found";
 		}
 	}
 	
@@ -51,30 +63,40 @@ public class HelloConfig {
 	        ConfigContext.init(config);
         } 
         catch (Exception e) {
-        	content = Util.stackTraceToString(e);
+        	overridenProperties = Util.stackTraceToString(e);
         	return false;
         }
         return true;
 	}
 
-	private void setContent() {
-		String path = System.getProperty("user.home");
-		content = Util.getFileContent(path + "/kuali/main/" + env);
+	private void setOverridenProperties() {
+		StringBuilder s = new StringBuilder();
+		for(String p : overridenPropertyNames) {
+			String prop = config.getProperty(p);
+			prop = Util.isEmpty(prop) ? "[EMPTY!]" : prop;
+			s.append(p).append(" = ").append(prop).append("\r\n");
+		}
+		overridenProperties = s.toString();
 	}
 
-	public String getContent() {
-		return content;
+	public String getOverridenProperties() {
+		return overridenProperties;
+	}
+	
+	public String getProperty(String key) {
+		return config.getProperty(key);
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println("System.getenv(\"user.home\") = " + System.getenv("user.home"));
-		System.out.println("System.getProperty(\"user.home\") = " + System.getProperty("user.home"));
-		System.out.println("System.getenv(\"windows_tracing_logfile\") = " + System.getenv("windows_tracing_logfile"));
-		System.out.println("System.getProperty(\"windows_tracing_logfile\") = " + System.getProperty("windows_tracing_logfile"));
-		System.out.println("System.getenv(\"JAVA_HOME\") = " + System.getenv("JAVA_HOME"));
-		System.out.println("System.getenv(\"MAVEN_HOME\") = " + System.getenv("MAVEN_HOME"));
-		if(true)
-			return;
-		new HelloConfig("dev");
+//		System.out.println("System.getenv(\"user.home\") = " + System.getenv("user.home"));
+//		System.out.println("System.getProperty(\"user.home\") = " + System.getProperty("user.home"));
+//		System.out.println("System.getenv(\"windows_tracing_logfile\") = " + System.getenv("windows_tracing_logfile"));
+//		System.out.println("System.getProperty(\"windows_tracing_logfile\") = " + System.getProperty("windows_tracing_logfile"));
+//		System.out.println("System.getenv(\"JAVA_HOME\") = " + System.getenv("JAVA_HOME"));
+//		System.out.println("System.getenv(\"MAVEN_HOME\") = " + System.getenv("MAVEN_HOME"));
+//		if(true)
+//			return;
+		HelloConfig cfg = new HelloConfig("dev");
+		System.out.println(cfg.getOverridenProperties());
 	}
 }

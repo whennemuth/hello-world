@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private static HelloConfig cfg;
 
     /**
      * Default constructor. 
@@ -20,6 +22,14 @@ public class HelloServlet extends HttpServlet {
     public HelloServlet() {
         // TODO Auto-generated constructor stub
     }
+
+    
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		cfg = new HelloConfig();
+	}
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,7 +46,12 @@ public class HelloServlet extends HttpServlet {
 				break;
 			case "lookup":
 				target = "WEB-INF/jsp/dblookup.jsp";
-				request.setAttribute("db", new DBLookup(new HelloConfig()));
+				DBLookup db = new DBLookup(cfg);
+				String sql = request.getParameter("sql");
+				if(!Util.isEmpty(sql)) {
+					db.setSql(sql);
+				}
+				request.setAttribute("db", db);
 				break;
 			}			
 		}
@@ -49,7 +64,6 @@ public class HelloServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
