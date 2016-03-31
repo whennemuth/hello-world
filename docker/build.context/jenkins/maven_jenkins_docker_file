@@ -11,6 +11,10 @@ COPY config.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
 
+# Copy the github private ssh key into the container
+ARG --description="File name and path for the bu kc git private key located on the docker host." git_jenkins_ssh_key
+COPY $git_jenkins_ssh_key /usr/share/jenkins/ref/
+
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
 COPY plugins.txt /usr/share/jenkins/ref/
