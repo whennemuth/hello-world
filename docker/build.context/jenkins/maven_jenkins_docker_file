@@ -4,7 +4,9 @@ MAINTAINER Warren
 # Beef up the memory
 ENV JAVA_OPTS="-Xmx8192m"
 
-# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console
+# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
+# Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
+# once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
 COPY config.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
