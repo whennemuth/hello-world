@@ -4,6 +4,8 @@ MAINTAINER Warren
 # Beef up the memory
 ENV JAVA_OPTS="-Xmx8192m"
 
+USER root
+
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
@@ -14,8 +16,8 @@ COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkin
 # Copy the github private ssh key into the container
 COPY github_id_jenkins_rsa /usr/share/jenkins/ref/
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
-RUN sudo chgrp users /usr/share/jenkins/ref/github_id_jenkins_rsa
-RUN sudo chmod 600 /usr/share/jenkins/ref/github_id_jenkins_rsa
+RUN chgrp users /usr/share/jenkins/ref/github_id_jenkins_rsa
+RUN chmod 600 /usr/share/jenkins/ref/github_id_jenkins_rsa
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
@@ -24,7 +26,6 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 # Have the jenkins logs written out to a mounted volume
 # Include the mount target directory when starting the container with a "-v" arg.
-USER root
 RUN mkdir -p /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 VOLUME /var/log/jenkins
