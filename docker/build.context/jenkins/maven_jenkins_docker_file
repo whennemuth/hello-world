@@ -13,8 +13,8 @@ COPY config.xml /usr/share/jenkins/ref/
 COPY credentials.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
-RUN mkdir -p /usr/share/jenkins/ref/jobs/backup-all-jobs
-COPY config_backup_jobs.xml /usr/share/jenkins/ref/jobs/backup-all-jobs/config.xml
+RUN mkdir -p /usr/share/jenkins/ref/jobs/pull-all-jobs
+COPY config-pull-all-jobs.xml /usr/share/jenkins/ref/jobs/pull-all-jobs/config.xml
 
 # Copy the github private ssh key into the container
 COPY github_id_jenkins_rsa /usr/share/jenkins/ref/
