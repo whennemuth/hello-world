@@ -23,6 +23,7 @@ RUN chgrp users /usr/share/jenkins/ref/github_id_jenkins_rsa
 RUN chmod 600 /usr/share/jenkins/ref/github_id_jenkins_rsa
 # Add github.com to the known_hosts for root so that attempts to make an ssh connection do not result in:
 # "host key verification failed" 
+RUN touch /root/.ssh/known_hosts
 RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
