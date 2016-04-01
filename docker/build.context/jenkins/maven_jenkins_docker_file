@@ -12,12 +12,17 @@ USER root
 COPY config.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
+RUN mkdir -p /var/jenkins_home/jobs/back-all-jobs
+COPY config_backup_jobs.xml /var/jenkins_home/jobs/back-all-jobs/config.xml
 
 # Copy the github private ssh key into the container
 COPY github_id_jenkins_rsa /usr/share/jenkins/ref/
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
 RUN chgrp users /usr/share/jenkins/ref/github_id_jenkins_rsa
 RUN chmod 600 /usr/share/jenkins/ref/github_id_jenkins_rsa
+# Add github.com to the known_hosts for root so that attempts to make an ssh connection do not result in:
+# "host key verification failed" 
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
