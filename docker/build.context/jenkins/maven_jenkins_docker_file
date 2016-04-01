@@ -10,9 +10,10 @@ USER root
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
 COPY config.xml /usr/share/jenkins/ref/
+COPY credentials.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
-RUN mkdir -p /var/jenkins_home/jobs/back-all-jobs
+RUN mkdir -p /var/jenkins_home/jobs/backup-all-jobs
 COPY config_backup_jobs.xml /var/jenkins_home/jobs/back-all-jobs/config.xml
 
 # Copy the github private ssh key into the container

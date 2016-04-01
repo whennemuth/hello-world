@@ -36,7 +36,29 @@
       <command>cd /var/jenkins_home/jobs
 eval `ssh-agent -s`
 ssh-add /usr/share/jenkins/ref/github_id_jenkins_rsa
-ssh -T git@github.com
+# ssh -T git@github.com
+if [ ! -d .git ]
+then
+	git init	
+	git config user.email &quot;jenkins@bu.edu&quot;
+	git config user.name $GITUSER
+	git remote add github $REPO
+fi
+if [ ! -f .gitignore]
+then
+	cat &gt; .gitignore &lt;&lt;EOL
+# Ignore everything in subdirectories
+/*/*
+# ...except the config.xml file in those subdirectories
+!/**/config.xml
+#...and this file
+!.gitignore
+EOL 
+fi
+
+git add --all
+git commit -m &quot;$COMMENT&quot;
+git push github master
 eval `ssh-agent -k`</command>
     </hudson.tasks.Shell>
   </builders>
