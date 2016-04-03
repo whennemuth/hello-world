@@ -39,7 +39,7 @@ ssh-add /usr/share/jenkins/ref/github_id_jenkins_rsa
 # ssh -T git@github.com
 if [ ! -d .git ] ; then
 	git init	
-	git config user.email &quot;$GITUSER@bu.edu&quot;
+	git config user.email &quot;jenkins@bu.edu&quot;
 	git config user.name $GITUSER
 	git remote add github $REPO
 fi
@@ -52,9 +52,14 @@ if [ ! -f .gitignore ] ; then
     echo &gt;&gt; .gitignore &quot;!.gitignore&quot;
 fi
 
-git add --all
-git commit -m &quot;$COMMENT&quot;
-git push github master
+if [ -n &quot;$(git status -s -z)&quot; ] ; then
+   echo &quot;Found changes to push.&quot;
+   git add --all
+   git commit -m &quot;$COMMENT&quot;
+   git push github master
+else
+   echo &quot;No changes! Nothing to commit! Push cancelled!&quot;
+fi
 eval `ssh-agent -k`</command>
     </hudson.tasks.Shell>
   </builders>

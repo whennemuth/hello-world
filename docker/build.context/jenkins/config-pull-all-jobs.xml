@@ -46,7 +46,13 @@ if [ ! -f .gitignore ] ; then
     echo &gt;&gt; .gitignore &quot;#...and this file&quot;
     echo &gt;&gt; .gitignore &quot;!.gitignore&quot;
 fi
-
+if [ -n &quot;$(git status -s -z)&quot; ] ; then
+    echo &quot;Found local changes. Committing these changes before merge. WARNING! May involve merge conflicts!&quot;
+    git add --all
+    git commit -m &quot;Jenkins pushing unstaged/uncommitted content to prepare for pull&quot;
+else
+    echo &quot;Nothing locally to commit - pull should include a fast-forward merge.&quot;
+fi
 git pull github master
 eval `ssh-agent -k`</command>
     </hudson.tasks.Shell>
