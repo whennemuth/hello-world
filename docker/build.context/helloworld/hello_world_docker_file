@@ -1,0 +1,7 @@
+FROM tomcat8:8-jre8
+MAINTAINER Warren
+
+# Beef up the memory
+ENV JAVA_OPTS="-Xmx8192m"
+
+USER root
