@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
   <description>Aquires all jobs backed up to a github repository</description>
