@@ -1,7 +1,3 @@
-<!--
-#ccdcff
-#efdcdc
--->
 .wrapper {
 	height:90%; 
 	# border:solid 1px black; 
@@ -15,7 +11,7 @@
 	font-family: arial;
 	font-size: 16px;
 	font-weight:bold;
-	background-color: #ccdcff;
+	background-color: #efdcdc;
 	color: #9d4848;
 	width: 1022px;
 	margin: 1px;
@@ -28,7 +24,7 @@
 	clear: both;
 	font-family: arial;
 	font-size: 12px;
-	background-color: #ccdcff;
+	background-color: #efdcdc;
 	width: 200px;
 	margin: 1px;
 	padding: 10px;
@@ -39,7 +35,7 @@
 	float: left;
 	font-family: arial;
 	font-size: 12px;
-	background-color: #ccdcff;
+	background-color: #efdcdc;
 	width: 800px;
 	margin: 1px;
 	padding: 10px;
@@ -51,7 +47,7 @@
 	clear: both;
 	font-family: arial;
 	font-size: 10px;
-	background-color: #ccdcff;
+	background-color: #efdcdc;
 	color: #9d4848;
 	width: 1034px;
 	margin: 1px;
@@ -68,3 +64,8 @@ th {
 	width: 780px;
 	height: 550px;
 }
+
+<!--
+#ccdcff
+#efdcdc
+-->
