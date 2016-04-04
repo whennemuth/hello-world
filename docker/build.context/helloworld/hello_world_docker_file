@@ -4,4 +4,6 @@ MAINTAINER Warren
 # Beef up the memory
 ENV JAVA_OPTS="-Xmx8192m"
 
+VOLUME /usr/local/tomcat/webapps
+
 USER root
