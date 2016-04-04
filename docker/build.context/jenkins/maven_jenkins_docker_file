@@ -26,6 +26,15 @@ RUN chmod 600 /usr/share/jenkins/ref/github_id_jenkins_rsa
 RUN mkdir /root/.ssh
 RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 
+# Copy the private ssh key of the application host into the container
+COPY jenkins_vm_id_rsa /usr/share/jenkins/ref/
+# Change permission level so that ssh agent does not complain about the ssh key being "too open".
+RUN chgrp users /usr/share/jenkins/ref/jenkins_vm_id_rsa
+RUN chmod 600 /usr/share/jenkins/ref/jenkins_vm_id_rsa
+# Add github.com to the known_hosts for root so that attempts to make an ssh connection do not result in:
+# "host key verification failed" 
+RUN ssh-keyscan -t rsa jenkinsvm2 >> /root/.ssh/known_hosts
+
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
 COPY plugins.txt /usr/share/jenkins/ref/
