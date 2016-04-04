@@ -1,4 +1,4 @@
-FROM tomcat8:8-jre8
+FROM tomcat:8-jre8
 MAINTAINER Warren
 
 # Beef up the memory
