@@ -30,7 +30,7 @@
     <hudson.tasks.Shell>
       <command>cd /var/jenkins_home/jobs
 eval `ssh-agent -s`
-ssh-add /usr/share/jenkins/ref/github_id_jenkins_rsa
+ssh-add /var/jenkins_ssh/github_id_jenkins_rsa
 # ssh -T git@github.com
 if [ ! -d .git ] ; then
 	git init	
