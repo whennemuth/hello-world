@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>Aquires all jobs backed up to a github repository</description>
+  <description>Aquires all jobs backed up to a github repository&#xd;
+&#xd;
+IMPORTANT!!!  This is not really a pull, but a fetch followed by a hard reset.&#xd;
+If you have made any changes to any jobs, push those first before running this job.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -30,6 +33,12 @@
     <hudson.tasks.Shell>
       <command>cd /var/jenkins_home/jobs
 eval `ssh-agent -s`
+# Copy github key to new dir so we can reduce its permissions so that ssh agent does not complain about it being &quot;too open&quot;.
+if [! -f /var/jenkins_ssh/github_id_jenkins_rsa ] ; then
+    cp /var/jenkins_ssh_mount/github_id_jenkins_rsa /var/jenkins_ssh
+    chmod 600 /var/jenkins_ssh/github_id_jenkins_rsa
+fi
+# Add the key to the agent.
 ssh-add /var/jenkins_ssh/github_id_jenkins_rsa
 # ssh -T git@github.com
 if [ ! -d .git ] ; then
@@ -47,13 +56,11 @@ if [ ! -f .gitignore ] ; then
     echo &gt;&gt; .gitignore &quot;!.gitignore&quot;
 fi
 if [ -n &quot;$(git status -s -z)&quot; ] ; then
-    echo &quot;Found local changes. Committing these changes before merge. WARNING! May involve merge conflicts!&quot;
-    git add --all
-    git commit -m &quot;Jenkins pushing unstaged/uncommitted content to prepare for pull&quot;
-else
-    echo &quot;Nothing locally to commit - pull should include a fast-forward merge.&quot;
+    echo &quot;FOUND LOCAL CHANGES! SORRY, YOUR ARE GOING TO LOSE THESE.&quot;
 fi
-git pull github master
+echo &quot;Fetching from upstream and performing hard reset&quot;
+git fetch github master
+git reset --hard FETCH_HEAD
 eval `ssh-agent -k`</command>
     </hudson.tasks.Shell>
   </builders>
