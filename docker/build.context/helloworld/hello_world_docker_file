@@ -6,6 +6,6 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
-RUN mkdir -p /usr/local/tomcat/webapp_arrivals
+RUN mkdir -p /usr/local/tomcat/webapp_mount
 
 
