@@ -28,7 +28,8 @@ RUN chmod 600 /var/jenkins_ssh
 # "host key verification failed" 
 RUN mkdir /root/.ssh
 # RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
-RUN ssh-keyscan -t rsa -f ssh_hosts >> /root/.ssh/known_hosts
+COPY ssh_hosts /root/.ssh/
+RUN ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts
 
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
