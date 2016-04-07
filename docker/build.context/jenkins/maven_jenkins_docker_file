@@ -22,8 +22,8 @@ RUN mkdir /var/jenkins_ssh_mount
 RUN mkdir /var/jenkins_ssh
 # Copy in a script that processes the ssh keys and change its properties to be executable.
 # NOTE: You cannot put this kind of stuff in /etc/init.d because a docker container is not really a virtual machine and does not have a functioning init system.
-COPY jenkinsInit.sh /usr/share/jenkins/ref/
-RUN chmod ugo+x /usr/share/jenkins/ref/jenkinsInit.sh
+COPY jenkinsInit.sh /usr/local/bin/
+RUN chmod ugo+x /usr/local/bin/jenkinsInit.sh
 
 # Add github.com and any other names to the known_hosts for root so that attempts to make an ssh connection do not result in:
 # "host key verification failed" 
@@ -54,6 +54,8 @@ RUN mkdir -p /usr/share/maven \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
 # CMD ["mvn"]
+
+ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh", "--", "/usr/local/bin/jenkinsInit.sh"]
 
 USER jenkins
 
