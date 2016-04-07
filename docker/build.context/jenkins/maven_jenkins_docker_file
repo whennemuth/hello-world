@@ -55,7 +55,7 @@ RUN mkdir -p /usr/share/maven \
 ENV MAVEN_HOME /usr/share/maven
 
 # CMD ["mvn"]
-CMD ["sh /usr/share/jenkins/ref/jenkinsInit.sh"]
+CMD sh /usr/share/jenkins/ref/jenkinsInit.sh
 
 USER jenkins
 
