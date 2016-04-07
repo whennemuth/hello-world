@@ -33,11 +33,6 @@ If you have made any changes to any jobs, push those first before running this j
     <hudson.tasks.Shell>
       <command>cd /var/jenkins_home/jobs
 eval `ssh-agent -s`
-# Copy github key to new dir so we can reduce its permissions so that ssh agent does not complain about it being &quot;too open&quot;.
-if [! -f /var/jenkins_ssh/github_id_jenkins_rsa ] ; then
-    cp /var/jenkins_ssh_mount/github_id_jenkins_rsa /var/jenkins_ssh
-    chmod 600 /var/jenkins_ssh/github_id_jenkins_rsa
-fi
 # Add the key to the agent.
 ssh-add /var/jenkins_ssh/github_id_jenkins_rsa
 # ssh -T git@github.com
