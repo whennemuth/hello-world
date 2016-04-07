@@ -15,4 +15,4 @@ if [ -f /root/.ssh/ssh_hosts ] ; then
    fi
 fi
 
-source jenkins.ssh
+source jenkins.sh
