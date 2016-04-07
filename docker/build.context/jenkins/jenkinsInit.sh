@@ -14,3 +14,5 @@ if [ -f /root/.ssh/ssh_hosts ] ; then
       ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts
    fi
 fi
+
+source jenkins.ssh
