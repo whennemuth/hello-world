@@ -55,7 +55,5 @@ RUN mkdir -p /usr/share/maven \
 ENV MAVEN_HOME /usr/share/maven
 # CMD ["mvn"]
 
-ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh", "--", "/usr/local/bin/jenkinsInit.sh"]
-
 USER jenkins
 
