@@ -14,6 +14,14 @@
 		<div class="side">
 			<a href="hello.htm?task=config">Show config file</a>
 			<br><br>
-			<a href="hello.htm?task=lookup">Database query</a>
+			<a href="hello.htm?task=lookup&dbtype=MYSQL">Database query (mysql local)</a>
+			<br><br>
+			<a href="hello.htm?task=lookup&dbtype=MYSQL_DOCKER">Database query (mysql docker)</a>
+			<br><br>
+			<a href="hello.htm?task=lookup&dbtype=MYSQL_LOCAL_DOCKER">Database query (mysql local docker)</a>
+			<br><br>
+			<a href="hello.htm?task=lookup&dbtype=ORACLE">Database query (oracle local)</a>
+			<br><br>
+			<a href="hello.htm?task=lookup&dbtype=ORACLE_DOCKER">Database query (oracle docker)</a>
 		</div>
 		<div class="body">

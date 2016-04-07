@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
+import com.bu.ist.hello.world.HelloConfig.DBTYPE;
+
 public class DBLookup {
 
 	private HelloConfig cfg;
@@ -86,7 +88,7 @@ public class DBLookup {
 	}
 
 	public static void main(String[] args) {
-		HelloConfig cfg = new HelloConfig("dev");
+		HelloConfig cfg = new HelloConfig("dev", DBTYPE.ORACLE);
 		DBLookup db = new DBLookup(cfg);
 		String html = db.getLookup("select * from proposal_state");
 		System.out.println(html);

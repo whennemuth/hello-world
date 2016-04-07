@@ -8,9 +8,13 @@ import org.springframework.util.ResourceUtils;
 
 public class HelloConfig {
 
+	public static enum DBTYPE {
+		MYSQL, MYSQL_DOCKER, MYSQL_LOCAL_DOCKER, ORACLE, ORACLE_DOCKER
+	};
+
 	private static final String CONFIG_FILE_PATH = ResourceUtils.CLASSPATH_URL_PREFIX + "META-INF/kc-config.xml";
 	private JAXBConfigImpl config;
-	private static final String[] overridenPropertyNames = new String[] {
+	private static final String[] overriddenPropertyNames = new String[] {
 			"application.host",	
 			"app.context.name",	
 			"datasource.driver.name",
@@ -28,6 +32,10 @@ public class HelloConfig {
 	}
 		
 	public HelloConfig(String env) {
+		this(null, DBTYPE.MYSQL);
+	}
+		
+	public HelloConfig(String env, DBTYPE dbtype) {
 		try {
 			if(env != null) {
 				this.env = env;
@@ -35,7 +43,7 @@ public class HelloConfig {
 			}
 	        // Stop Quartz from "phoning home" on every startup
 	        System.setProperty("org.terracotta.quartz.skipUpdateCheck", "true");
-	        if(initialize()) {
+	        if(initialize(dbtype)) {
 	        	setOverridenProperties();
 	        }
 		} 
@@ -47,11 +55,12 @@ public class HelloConfig {
 		}
 	}
 	
-	private boolean initialize() throws Exception {
+	private boolean initialize(DBTYPE dbtype) throws Exception {
 		Properties baseProps = new Properties();
         baseProps.putAll(System.getProperties());
 
         config = new JAXBConfigImpl(CONFIG_FILE_PATH, baseProps);
+        config.setDbtype(dbtype);
 
         try {
             config.parseConfig();
@@ -67,7 +76,7 @@ public class HelloConfig {
 
 	private void setOverridenProperties() {
 		StringBuilder s = new StringBuilder();
-		for(String p : overridenPropertyNames) {
+		for(String p : overriddenPropertyNames) {
 			String prop = config.getProperty(p);
 			prop = Util.isEmpty(prop) ? "[EMPTY!]" : prop;
 			s.append(p).append(" = ").append(prop).append("\r\n");
@@ -92,7 +101,7 @@ public class HelloConfig {
 //		System.out.println("System.getenv(\"MAVEN_HOME\") = " + System.getenv("MAVEN_HOME"));
 //		if(true)
 //			return;
-		HelloConfig cfg = new HelloConfig("dev");
+		HelloConfig cfg = new HelloConfig("dev", DBTYPE.ORACLE);
 		System.out.println(cfg.getOverridenProperties());
 	}
 }

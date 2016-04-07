@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bu.ist.hello.world.HelloConfig.DBTYPE;
+
 /**
  * Servlet implementation class HelloServlet
  */
@@ -36,16 +38,24 @@ public class HelloServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String task = request.getParameter("task");
+		String dbt = request.getParameter("dbtype");
+		DBTYPE dbtype = null;
+		if(!Util.isEmpty(dbt)) {
+			dbtype = DBTYPE.valueOf(dbt);
+		}
 		String target = "WEB-INF/jsp/hello.jsp";
 		
 		if(task != null) {
 			switch(task) {
 			case "config":
 				target = "WEB-INF/jsp/config.jsp";
-				request.setAttribute("cfg", new HelloConfig());
+				request.setAttribute("cfg", cfg);
 				break;
 			case "lookup":
 				target = "WEB-INF/jsp/dblookup.jsp";
+				if(dbtype != null) {
+					cfg = new HelloConfig(null, dbtype);
+				}
 				DBLookup db = new DBLookup(cfg);
 				String sql = request.getParameter("sql");
 				if(!Util.isEmpty(sql)) {
