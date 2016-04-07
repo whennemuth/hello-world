@@ -26,7 +26,7 @@ public class JAXBConfigImpl {
 		new String[]{"application.host", "localhost"},
 		new String[]{"app.context.name", "kc"},
 		new String[]{"datasource.driver.name", "com.mysql.jdbc.Driver"},
-		new String[]{"datasource.url","jdbc:mysql://localhost:3306/kualicoeusdb?"
+		new String[]{"datasource.url","jdbc:mysql://localhost:43306/kualicoeusdb?"
 				+ "verifyServerCertificate=false"
 				+ "&amp;requireSSL=false"
 				+ "&amp;useSSL=false"},
