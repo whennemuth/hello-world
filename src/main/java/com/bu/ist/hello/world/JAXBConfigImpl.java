@@ -23,7 +23,7 @@ public class JAXBConfigImpl {
 	};
 	
 	private static final String[][] mysqlprops_docker = new String[][]{
-		new String[]{"application.host", "localhost"},
+		new String[]{"application.host", "kuali_db_mysql"},
 		new String[]{"app.context.name", "kc"},
 		new String[]{"datasource.driver.name", "com.mysql.jdbc.Driver"},
 		new String[]{"datasource.url","jdbc:mysql://localhost:43306/kualicoeusdb?"
@@ -68,7 +68,7 @@ public class JAXBConfigImpl {
 	};
 	
 	private static final String[][] oracleprops_docker = new String[][]{
-		new String[]{"application.host", "localhost"},
+		new String[]{"application.host", "kuali_db_oracle"},
 		new String[]{"app.context.name", "kc"},
 		new String[]{"datasource.driver.name", "oracle.jdbc.driver.OracleDriver"},
 		new String[]{"datasource.url","jdbc:oracle:thin:@("
