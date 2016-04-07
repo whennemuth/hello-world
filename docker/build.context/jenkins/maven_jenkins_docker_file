@@ -20,11 +20,12 @@ COPY config-pull-all-jobs.xml /usr/share/jenkins/ref/jobs/pull-all-jobs/config.x
 RUN mkdir /var/jenkins_ssh_mount
 # Create a directory for the mounted directory contents to be copied to (cannot change permissions of file in mounted directory).
 RUN mkdir /var/jenkins_ssh
-# Change permission level so that ssh agent does not complain about the ssh key being "too open".
-# Hopefully, copied keys will inherit permissions of the parent directory (Jenkins job will do the copying).
-RUN chgrp users /var/jenkins_ssh
-RUN chmod 600 /var/jenkins_ssh
-# Add github.com to the known_hosts for root so that attempts to make an ssh connection do not result in:
+# Copy in a script that processes the ssh keys and change its properties to be executable
+COPY jenkinsInit.sh /etc/init.d/
+RUN chmod ugo+x /etc/init.d/jenkinsInit.sh
+RUN update-rc.d /etc/init.d/jenkinsInit.sh defaults
+
+# Add github.com and any other names to the known_hosts for root so that attempts to make an ssh connection do not result in:
 # "host key verification failed" 
 RUN mkdir /root/.ssh
 # RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
