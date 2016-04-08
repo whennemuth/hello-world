@@ -6,6 +6,11 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
+# Install nodejs and npm
+RUN apt-get update
+RUN apt-get install nodejs
+RUN apt-get install npm
+
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
