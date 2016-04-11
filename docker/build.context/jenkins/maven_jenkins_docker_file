@@ -9,8 +9,8 @@ USER root
 # Changing jenkins user and group ids so they don't conflict with the existing user on host.
 RUN usermod -u 1001 jenkins    
 RUN groupmod -g 1001 jenkins
-RUN find / -user 1000 -exec chown -h 1001 {} \;
-RUN find / -group 1000 -exec chgrp -h 1001 {} \;
+# RUN find / -user 1000 -exec chown -h 1001 {} \;
+# RUN find / -group 1000 -exec chgrp -h 1001 {} \;
 RUN usermod -g 1001 jenkins
 
 # Install nodejs and npm
