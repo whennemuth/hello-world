@@ -6,12 +6,19 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
+# Changing jenkins user and group ids so they don't conflict with the existing user on host.
+RUN usermod -u 1001 jenkins    
+RUN groupmod -g 1001 jenkins
+RUN find / -user 1000 -exec chown -h 1001 {} \;
+RUN find / -group 1000 -exec chgrp -h 1001 {} \;
+RUN usermod -g 1001 jenkins
+
 # Install nodejs and npm
 RUN apt-get update
 RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 
-# Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
+# Copy selected system settings files to /usr/share/jenkins/ref/ so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
 COPY config.xml /usr/share/jenkins/ref/
