@@ -61,7 +61,7 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 RUN mkdir -p /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 VOLUME /var/log/jenkins
-ENV JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log"
+ENV JENKINS_OPTS="--logfile=/var/log/jenkins/jenkins.log --user=root"
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
