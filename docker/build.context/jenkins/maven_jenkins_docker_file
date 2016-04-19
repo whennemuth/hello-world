@@ -2,7 +2,7 @@ FROM jenkins
 MAINTAINER Warren
 
 # Beef up the memory
-ENV JAVA_OPTS="-Xmx8192m"
+ENV JAVA_OPTS="-Xmx8192m -Dhudson.Util.noSymLink"
 
 USER root
 
