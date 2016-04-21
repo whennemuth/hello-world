@@ -43,6 +43,11 @@ RUN mkdir /root/.ssh
 COPY ssh_hosts /root/.ssh/
 RUN ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts
 
+# Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
+# Old:
+# ENV JENKINS_UC https://updates.jenkins-ci.org
+ENV JENKINS_UC_DOWNLOAD https://updates.jenkins.io/download
+
 # Have the plugins.sh script (part of the jenkins image build context) load in jpi files for plugins from a text file listing. 
 # Jenkins will install plugins not already when the container starts.
 COPY plugins.txt /usr/share/jenkins/ref/
@@ -65,11 +70,6 @@ RUN mkdir -p /usr/share/maven \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
 # CMD ["mvn"]
-
-# Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
-# Old:
-# ENV JENKINS_UC https://updates.jenkins-ci.org/download
-ENV JENKINS_UC_DOWNLOAD https://updates.jenkins.io/download
 
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkinsInit.sh"]
 
