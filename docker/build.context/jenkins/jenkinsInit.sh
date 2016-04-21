@@ -18,8 +18,11 @@ fi
 
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
 cp /var/jenkins_ssh_mount/. /var/jenkins_ssh/ -R
+cp /var/jenkins_ssh_mount/. /var/jenkins_home/.ssh/ -R
+
 chgrp users /var/jenkins_ssh -R
 chmod 700 /var/jenkins_ssh
 chmod 600 /var/jenkins_ssh/*
+chmod 600 /var/jenkins_home/.ssh/*
 
 source jenkins.sh
