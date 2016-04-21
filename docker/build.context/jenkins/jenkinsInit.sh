@@ -8,8 +8,11 @@ if [ -f /root/.ssh/ssh_hosts ] ; then
    if [ -n /root/.ssh/known_hosts ] || [ -n "$(cat /root/.ssh/known_hosts | grep github.com)" ] ; then 
       ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts
    fi
+fi
+
+if [ -f /var/jenkins_ssh/ssh_hosts ] ; then
    if [ -n /var/jenkins_ssh_mount/known_hosts ] || [ -n "$(cat /var/jenkins_ssh_mount/known_hosts | grep github.com)" ] ; then 
-      ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /var/jenkins_ssh_mount/known_hosts
+      ssh-keyscan -t rsa -f /var/jenkins_ssh/ssh_hosts >> /var/jenkins_ssh_mount/known_hosts
    fi
 fi
 

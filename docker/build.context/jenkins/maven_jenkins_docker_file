@@ -25,6 +25,7 @@ COPY config-pull-all-jobs.xml /usr/share/jenkins/ref/jobs/pull-all-jobs/config.x
 RUN mkdir /var/jenkins_ssh_mount
 # Create a directory for the mounted directory contents to be copied to (cannot change permissions of file in mounted directory).
 RUN mkdir /var/jenkins_ssh
+COPY ssh_hosts /var/jenkins_ssh
 RUN chown -R jenkins:jenkins /var/jenkins_ssh
 RUN chmod 766 /var/jenkins_ssh
 
@@ -43,6 +44,7 @@ RUN mkdir /root/.ssh
 # RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 COPY ssh_hosts /root/.ssh/
 RUN ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts
+RUN ssh-keyscan -t rsa -f /var/jenkins_ssh/ssh_hosts >> /var/jenkins_ssh/known_hosts
 
 # Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
 # From parent docker file: ENV JENKINS_UC https://updates.jenkins-ci.org
