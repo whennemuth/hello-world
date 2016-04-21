@@ -66,6 +66,11 @@ RUN mkdir -p /usr/share/maven \
 ENV MAVEN_HOME /usr/share/maven
 # CMD ["mvn"]
 
+# Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
+# Old:
+# ENV JENKINS_UC https://updates.jenkins-ci.org/download
+ENV JENKINS_UC_DOWNLOAD https://updates.jenkins.io/download
+
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkinsInit.sh"]
 
 USER jenkins
