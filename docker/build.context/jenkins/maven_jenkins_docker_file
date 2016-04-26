@@ -16,6 +16,7 @@ RUN \
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
 COPY config.xml /usr/share/jenkins/ref/
+COPY hudson.maven.MavenModuleSet.xml /usr/share/jenkins/ref/
 COPY credentials.xml /usr/share/jenkins/ref/
 COPY hudson.tasks.Maven.xml /usr/share/jenkins/ref/
 COPY org.jenkinsci.plugins.docker.commons.tools.DockerTool.xml /usr/share/jenkins/ref/
