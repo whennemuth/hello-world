@@ -43,6 +43,9 @@ RUN \
    mkdir -p /var/jenkins/workspace && \
    chmod -R 777 /var/jenkins/workspace
 
+# Turn off hostname hashing so that the host names are human-readable in the known_hosts files
+RUN sed -i -- 's/HashKnownHosts yes/HashKnownHosts no/g' /etc/ssh/ssh_config
+
 # Add github.com and any other names to the known_hosts for root so that attempts to make an ssh connection do not result in:
 # "host key verification failed" 
 RUN mkdir /root/.ssh
