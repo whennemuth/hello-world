@@ -17,4 +17,7 @@ RUN \
 COPY tomcatInit.sh /usr/local/tomcat/bin
 RUN chmod ugo+x /usr/local/tomcat/bin/tomcatInit.sh
 
+# Copy the spring intrumentation jar file to the tomcat lib directory
+COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
+
 CMD ["tomcatInit.sh"]
