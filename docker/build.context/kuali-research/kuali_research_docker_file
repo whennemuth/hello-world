@@ -6,7 +6,11 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
-RUN mkdir -p /usr/local/tomcat/webapp_mount
+RUN \
+   mkdir -p /usr/local/tomcat/webapp_mount && \
+   mkdir -p /root/kuali/main/dev && \
+   mkdir -p /root/kuali/main/config && \
+   mkdir -p /root/kuali/main/logs/printing
 
 # Copy in a script that will run catalina.sh, but only after it does some custom tasks first.
 # Namely, copying war file from mounted directory to webapps dir so containter can start with last built war running.
