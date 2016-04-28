@@ -15,6 +15,9 @@ RUN \
 # Copy the spring intrumentation jar file to the tomcat lib directory
 COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
 
+# Copy the mysql driver to the tomcat lib directory
+COPY mysql-connector-java-5.1.38-bin.jar /usr/local/tomcat/lib
+
 # Overwrite the context.xml in the catalina conf directory with one that includes a reference to the spring intrumentation jar
 COPY context.xml /usr/local/tomcat/conf/context.xml
 
