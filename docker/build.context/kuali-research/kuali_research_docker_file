@@ -12,12 +12,15 @@ RUN \
    mkdir -p /root/kuali/main/config && \
    mkdir -p /root/kuali/main/logs/printing
 
+# Copy the spring intrumentation jar file to the tomcat lib directory
+COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
+
+# Copy the kc.xml context file to the catalina conf directory
+COPY kc.xml /usr/local/tomcat/conf/Catalina/localhost
+
 # Copy in a script that will run catalina.sh, but only after it does some custom tasks first.
 # Namely, copying war file from mounted directory to webapps dir so containter can start with last built war running.
 COPY tomcatInit.sh /usr/local/tomcat/bin
 RUN chmod ugo+x /usr/local/tomcat/bin/tomcatInit.sh
-
-# Copy the spring intrumentation jar file to the tomcat lib directory
-COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
 
 CMD ["tomcatInit.sh"]
