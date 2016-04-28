@@ -15,8 +15,8 @@ RUN \
 # Copy the spring intrumentation jar file to the tomcat lib directory
 COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
 
-# Copy the kc.xml context file to the catalina conf directory
-COPY kc.xml /usr/local/tomcat/conf/Catalina/localhost/kc.xml
+# Overwrite the context.xml in the catalina conf directory with one that includes a reference to the spring intrumentation jar
+COPY kc.xml /usr/local/tomcat/conf/context.xml
 
 # Copy in a script that will run catalina.sh, but only after it does some custom tasks first.
 # Namely, copying war file from mounted directory to webapps dir so containter can start with last built war running.
