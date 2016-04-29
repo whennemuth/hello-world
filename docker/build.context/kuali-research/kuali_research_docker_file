@@ -1,8 +1,10 @@
 FROM tomcat:8-jre8
 MAINTAINER Warren
 
-# Beef up the memory
-ENV JAVA_OPTS="-Xmx8192m"
+# Beef up the memory to get the most it can for a t2.medium (4GB)
+# NOTE: This can be alternatively set by including a setenv.sh file in the build context with these settings (uncomment the corresponding COPY statement below)
+#       Also, you can override this setting by including it in an -e switch of the docker container run command.
+ENV JAVA_OPTS="-Xmx3072m -Xms512m -XX:MaxPermSize=256m"
 
 USER root
 
@@ -13,7 +15,7 @@ RUN \
    mkdir -p /root/kuali/main/logs/printing
 
 # Copy the setenv.sh file into the the catalina bin directory to increase the java heap size.
-COPY setenv.sh /usr/local/tomcat/bin
+# COPY setenv.sh /usr/local/tomcat/bin
 
 # Copy the spring intrumentation jar file to the tomcat lib directory
 COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
