@@ -50,7 +50,7 @@ RUN mkdir -p /usr/share/jenkins/ref
 # Jenkins is run with user `jenkins`
 # If you bind mount a volume from the host or a data container, 
 # ensure you use the same uid
-RUN useradd -d "$JENKINS_HOME" -u jenkins -g jenkins -m -s /bin/bash jenkins
+RUN useradd -d "$JENKINS_HOME" -g jenkins -m -s /bin/bash jenkins
 
 ENV JENKINS_UC https://updates.jenkins-ci.org
 RUN chown -R jenkins "$JENKINS_HOME" /usr/share/jenkins/ref
