@@ -42,6 +42,17 @@ EXPOSE 8080
 
 # Start kuali-jenkins-dind additions...
 
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
+
+# Jenkins is run with user `jenkins`, uid = 1000
+# If you bind mount a volume from the host or a data container, 
+# ensure you use the same uid
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+
 ENV JENKINS_UC https://updates.jenkins-ci.org
 RUN chown -R ${user} "$JENKINS_HOME" /usr/share/jenkins/ref
 
@@ -54,12 +65,6 @@ EXPOSE 80
 ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
-
-# Install nodejs and npm
-RUN \
-   apt-get update && \
-   apt-get install -y nodejs && \
-   apt-get install -y npm
 
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
@@ -130,6 +135,12 @@ RUN mkdir -p /usr/share/maven \
     | tar -xzC /usr/share/maven --strip-components=1 \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
+
+# Install nodejs and npm
+RUN \
+   apt-get update && \
+   apt-get install -y nodejs && \
+   apt-get install -y npm
 
 CMD ["/usr/bin/supervisord", "--", "/usr/local/bin/jenkinsInit.sh"]
 
