@@ -3,7 +3,7 @@
         <!--
         <param name="application.host">localhost</param>
         -->
-        <param name="application.host">ec2-52-37-253-82.us-west-2.compute.amazonaws.com</param>
+        <param name="application.host">http://ec2-52-37-253-82.us-west-2.compute.amazonaws.com</param>
         <param name="http.port">80</param>
         <param name="app.context.name">kc</param>
 	<param name="build.environment" override="true">dev</param>
