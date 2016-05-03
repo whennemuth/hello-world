@@ -36,7 +36,7 @@ VOLUME /var/lib/jenkins
 RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 8080
 
@@ -147,6 +147,8 @@ VOLUME /var/log/jenkins
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
+
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord"]
 
