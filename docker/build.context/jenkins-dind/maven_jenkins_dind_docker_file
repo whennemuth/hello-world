@@ -119,8 +119,8 @@ ENV JENKINS_UC_DOWNLOAD https://updates.jenkins.io/download
 COPY plugins.sh /usr/local/bin/plugins.sh
 COPY plugins.txt /usr/share/jenkins/ref/
 RUN \
-   usermod -s /bin/bash root && \
-   usermod -s /bin/bash jenkins && \
+   chmod -R 755 /usr/local/bin && \
+   chmod -R 755 /usr/share/jenkins/ref && \
    /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
 
 # Have the jenkins logs written out to a mounted volume
