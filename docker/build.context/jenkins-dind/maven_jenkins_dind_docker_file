@@ -141,7 +141,7 @@ RUN \
 # Include the mount target directory when starting the container with a "-v" arg.
 RUN \
    mkdir -p /var/log/jenkins && \
-   chown -R  jenkins:jenkins /var/log/jenkins
+   chown -R  jenkins:jenkins /var/log/jenkins && \
    chmod -R a+rw /var/log
 VOLUME /var/log/jenkins
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
