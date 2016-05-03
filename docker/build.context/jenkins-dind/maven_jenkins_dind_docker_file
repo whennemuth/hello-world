@@ -147,6 +147,6 @@ RUN \
    apt-get install -y nodejs && \
    apt-get install -y npm
 
-CMD ["/usr/bin/supervisord", "--", "/usr/local/bin/jenkinsInit.sh"]
+ENTRYPOINT ["/usr/bin/supervisord", "--", "/usr/local/bin/jenkinsInit.sh"]
 
 USER jenkins
