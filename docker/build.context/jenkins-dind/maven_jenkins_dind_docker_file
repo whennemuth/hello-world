@@ -67,6 +67,20 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
+# Build maven into the image.
+ENV MAVEN_VERSION 3.3.9
+RUN mkdir -p /usr/share/maven \
+  && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+    | tar -xzC /usr/share/maven --strip-components=1 \
+  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+ENV MAVEN_HOME /usr/share/maven
+
+# Install nodejs and npm
+RUN \
+   apt-get update && \
+   apt-get install -y nodejs && \
+   apt-get install -y npm
+
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
@@ -128,24 +142,11 @@ RUN \
 RUN \
    mkdir -p /var/log/jenkins && \
    chown -R  jenkins:jenkins /var/log/jenkins
+   chmod -R a+rw /var/log
 VOLUME /var/log/jenkins
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
-
-# Build maven into the image.
-ENV MAVEN_VERSION 3.3.9
-RUN mkdir -p /usr/share/maven \
-  && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
-    | tar -xzC /usr/share/maven --strip-components=1 \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-ENV MAVEN_HOME /usr/share/maven
-
-# Install nodejs and npm
-RUN \
-   apt-get update && \
-   apt-get install -y nodejs && \
-   apt-get install -y npm
 
 CMD ["/usr/bin/supervisord"]
 
