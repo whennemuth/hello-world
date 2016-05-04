@@ -155,6 +155,7 @@ RUN \
    chmod -R a+rw /var/log
 VOLUME /var/log/jenkins
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
+ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
