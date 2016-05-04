@@ -106,8 +106,8 @@ RUN \
 
 # Copy in a script that processes the ssh keys and change its properties to be executable.
 # NOTE: You cannot put this kind of stuff in /etc/init.d because a docker container is not really a virtual machine and does not have a functioning init system.
-COPY jenkins.sh /usr/local/bin/
-RUN chmod ugo+x /usr/local/bin/jenkins.sh
+# COPY jenkins.sh /usr/local/bin/
+# RUN chmod ugo+x /usr/local/bin/jenkins.sh
 
 # Temporarily using an unmounted directory for the jenkins workspaces (builds are having permissions problems on Virtualbox mounted drives)
 RUN \
