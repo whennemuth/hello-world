@@ -1,6 +1,6 @@
 # if `docker run` first argument start with `--` the user is passing jenkins launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
-  echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS" >> /var/log/jenkins/stdout-supervisor.log
+  echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS"
   eval "exec java $JAVA_OPTS -jar /usr/share/jenkins/jenkins.war $JENKINS_OPTS \"\$@\""
 fi
 

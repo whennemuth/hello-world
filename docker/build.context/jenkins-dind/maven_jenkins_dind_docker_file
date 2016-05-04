@@ -29,8 +29,8 @@ RUN wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add 
 RUN sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
 RUN apt-get update && apt-get install -y zip supervisor jenkins && rm -rf /var/lib/apt/lists/*
 RUN usermod -a -G docker jenkins
-ENV JENKINS_HOME /var/lib/jenkins
-VOLUME /var/lib/jenkins
+ENV JENKINS_HOME /var/jenkins_home
+VOLUME /var/jenkins_home
 
 # Install Docker Compose
 RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
@@ -97,12 +97,12 @@ COPY config-pull-all-jobs.xml /usr/share/jenkins/ref/jobs/pull-all-jobs/config.x
 # Create a directory to mount to later where the .ssh keys will be placed
 # and create a directory for the mounted directory contents to be copied to (cannot change permissions of file in mounted directory).
 RUN \
-   mkdir /var/lib/jenkins_ssh_mount && \
-   mkdir /var/lib/jenkins_ssh
-COPY ssh_hosts /var/lib/jenkins_ssh
+   mkdir /var/jenkins_ssh_mount && \
+   mkdir /var/jenkins_ssh
+COPY ssh_hosts /var/jenkins_ssh
 RUN \
-   chown -R jenkins:jenkins /var/lib/jenkins_ssh && \
-   chmod 766 /var/lib/jenkins_ssh
+   chown -R jenkins:jenkins /var/jenkins_ssh && \
+   chmod 766 /var/jenkins_ssh
 
 # Copy in a script that processes the ssh keys and change its properties to be executable.
 # NOTE: You cannot put this kind of stuff in /etc/init.d because a docker container is not really a virtual machine and does not have a functioning init system.
@@ -111,8 +111,8 @@ RUN chmod ugo+x /usr/local/bin/jenkins.sh
 
 # Temporarily using an unmounted directory for the jenkins workspaces (builds are having permissions problems on Virtualbox mounted drives)
 RUN \
-   mkdir -p /var/lib/jenkins_workspace && \
-   chmod -R 777 /var/lib/jenkins_workspace
+   mkdir -p /var/jenkins_workspace && \
+   chmod -R 777 /var/jenkins_workspace
 
 # Turn off hostname hashing so that the host names are human-readable in the known_hosts files
 RUN sed -i -- 's/HashKnownHosts yes/HashKnownHosts no/g' /etc/ssh/ssh_config
@@ -124,7 +124,7 @@ RUN mkdir /root/.ssh
 COPY ssh_hosts /root/.ssh/
 RUN \
    ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts && \
-   cp /root/.ssh/ssh_hosts /var/lib/jenkins_ssh
+   cp /root/.ssh/ssh_hosts /var/jenkins_ssh
 
 # Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
 # From parent docker file: ENV JENKINS_UC https://updates.jenkins-ci.org
