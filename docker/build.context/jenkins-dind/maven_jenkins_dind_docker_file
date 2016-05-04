@@ -154,7 +154,8 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY jenkins.sh /usr/local/bin/
 RUN chmod ugo+x /usr/local/bin/jenkins.sh
+RUN chmod -R ugo+w /var/log/jenkins
 
 CMD ["/usr/bin/supervisord"]
 
-# USER jenkins
+USER jenkins
