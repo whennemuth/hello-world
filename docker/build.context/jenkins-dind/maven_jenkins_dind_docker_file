@@ -109,7 +109,7 @@ RUN \
    mkdir /var/jenkins_ssh
 COPY ssh_hosts /var/jenkins_ssh
 RUN \
-   chown -R jenkins:jenkins /var/jenkins_ssh && \
+   chown -R jenkins:users /var/jenkins_ssh && \
    chmod 766 /var/jenkins_ssh
 
 # Copy in a script that processes the ssh keys and change its properties to be executable.
