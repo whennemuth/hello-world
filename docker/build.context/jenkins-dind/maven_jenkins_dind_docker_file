@@ -49,6 +49,14 @@ ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
 
+# Copy script that starts jenkins and change jenkins user and group to match those for jenkins on the docker host.
+COPY jenkins.sh /usr/local/bin/
+RUN \
+   chmod ugo+x /usr/local/bin/jenkins.sh && \
+   chmod -R ugo+wr /var/log/jenkins && \
+   usermod -u ${uid} ${user} && \
+   groupmod -g ${gid} ${group}
+
 # `/usr/share/jenkins/ref/` contains all reference configuration we want 
 # to set on a fresh new installation. Use it to bundle additional plugins 
 # or config file with your custom jenkins Docker image.
@@ -151,14 +159,6 @@ ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Copy script that starts jenkins and change jenkins user and group to match those for jenkins on the docker host.
-COPY jenkins.sh /usr/local/bin/
-RUN \
-   chmod ugo+x /usr/local/bin/jenkins.sh && \
-   chmod -R ugo+wr /var/log/jenkins && \
-   usermod -u ${uid} ${user} && \
-   groupmod -g ${gid} ${group}
 
 CMD ["/usr/bin/supervisord"]
 
