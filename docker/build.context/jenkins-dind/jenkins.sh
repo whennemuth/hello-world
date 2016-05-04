@@ -1,6 +1,8 @@
 # This script copies all ssh private keys from a docker mounted folder to an unmounted folder.
 # Properties of these keys can only be changed in an unmounted folder.
 
+echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS, USER = $USER"
+
 # Adding the various hosts to the known_hosts file should have been done as a RUN instruction in the DockerFile.
 # However test if this is true and fix the situation if it is not.
 if [ -f /root/.ssh/ssh_hosts ] ; then
@@ -57,7 +59,6 @@ find /usr/share/jenkins/ref/ -type f -exec bash -c "copy_reference_file '{}'" \;
 
 # if `docker run` first argument start with `--` the user is passing jenkins launcher arguments
 if [[ $# -lt 1 ]] || [[ "$1" == "--"* ]]; then
-  echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS, USER = $USER"
   eval "exec java $JAVA_OPTS -jar /usr/share/jenkins/jenkins.war $JENKINS_OPTS \"\$@\""
 fi
 
