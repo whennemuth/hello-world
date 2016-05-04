@@ -1,7 +1,9 @@
 # This script copies all ssh private keys from a docker mounted folder to an unmounted folder.
 # Properties of these keys can only be changed in an unmounted folder.
 
-echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS, USER = $USER"
+set -xe
+
+echo "Jenkins launcher arguments present: JENKINS_OPTS = $JENKINS_OPTS, JAVA_OPTS = $JAVA_OPTS, USER = $USER, COPY_REFERENCE_FILE_LOG = $COPY_REFERENCE_FILE_LOG, JENKINS_HOME = $JENKINS_HOME"
 
 # Adding the various hosts to the known_hosts file should have been done as a RUN instruction in the DockerFile.
 # However test if this is true and fix the situation if it is not.
@@ -28,8 +30,6 @@ chgrp users /var/jenkins_ssh -R
 chmod 700 /var/jenkins_ssh
 chmod 600 /var/jenkins_ssh/*
 chmod 600 /var/jenkins_home/.ssh/*
-
-set -e
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
 # So the initial JENKINS-HOME is set with expected content.
