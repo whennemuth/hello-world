@@ -159,7 +159,7 @@ RUN \
    chmod -R ugo+wr /var/log/jenkins && \
    usermod -u ${uid} ${user} && \
    groupmod -g ${gid} ${group} && \
-   usermod -g ${gid} ${uid}
+   usermod -g ${gid} ${user}
 
 CMD ["/usr/bin/supervisord"]
 
