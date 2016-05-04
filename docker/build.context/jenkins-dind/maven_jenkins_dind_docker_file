@@ -149,8 +149,9 @@ VOLUME /var/log/jenkins
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
+
 # DIND image will not run as is - jenkins needs write privileges to the supervisord log file.
-RUN chmod -R ugo+w /var/log/supervisor
+RUN chmod -R ugo+rw /var/log/supervisor
 
 CMD ["/usr/bin/supervisord"]
 
