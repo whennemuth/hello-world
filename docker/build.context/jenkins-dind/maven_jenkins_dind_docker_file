@@ -121,7 +121,7 @@ RUN \
 RUN mkdir -p /var/jenkins_m2repo
 
 # Copy the settings.xml to the unmounted new repo dir, later to be copied to the standard .m2 location to instruct maven to use this new repo location
-COPY settings.xml /usr/share/jenkins/ref/settings_local.xml
+COPY settings.xml /usr/share/jenkins/ref/
 RUN \
    chown -R jenkins:jenkins /var/jenkins_m2repo && \
    chmod -R 766 /var/jenkins_m2repo
@@ -131,12 +131,17 @@ RUN sed -i -- 's/HashKnownHosts yes/HashKnownHosts no/g' /etc/ssh/ssh_config
 
 # Add github.com and any other names to the known_hosts for root so that attempts to make an ssh connection do not result in:
 # "host key verification failed" 
+# (NOTE: Alternatively you can be less secure and turn of host key checking:
+#           rm ~/.ssh/config
+#           echo >> ~/.ssh/config "Host *\n\tUser jenkins\n\tStrictHostKeyChecking no\n"
 RUN mkdir /root/.ssh
 # RUN ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
 COPY ssh_hosts /root/.ssh/
 RUN \
    ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts && \
-   cp /root/.ssh/ssh_hosts /var/jenkins_ssh
+   cp /root/.ssh/ssh_hosts /var/jenkins_ssh && \
+   mkdir -p /var/lib/jenkins/.ssh && \
+   cp /root/.ssh/ssh_hosts /var/lib/jenkins/.ssh
 
 # Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
 # From parent docker file: ENV JENKINS_UC https://updates.jenkins-ci.org

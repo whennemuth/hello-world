@@ -16,3 +16,4 @@ analysis-core:1.76
 token-macro:1.12.1
 publish-over-ssh:1.14
 preSCMbuildstep:0.3
+maven-plugin:2.12.1

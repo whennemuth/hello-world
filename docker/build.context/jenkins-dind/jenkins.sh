@@ -24,16 +24,18 @@ fi
 mkdir -p $JENKINS_HOME/.ssh
 cp /var/jenkins_ssh_mount/. /var/jenkins_ssh/ -R
 cp /var/jenkins_ssh_mount/. $JENKINS_HOME/.ssh/ -R
+cp /var/jenkins_ssh_mount/. /var/lib/jenkins/.ssh/ -R
 
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
 # chgrp users /var/jenkins_ssh -R
 chmod 700 /var/jenkins_ssh
 chmod 600 /var/jenkins_ssh/*
 chmod 600 $JENKINS_HOME/.ssh/*
+chmod 600 /var/lib/jenkins/.ssh/*
 
 # make .m2 dir and copy settings.xml to it
 mkdir -p $JENKINS_HOME/.m2
-cp /usr/share/jenkins/ref/settings_local.xml $JENKINS_HOME/.m2/settings.xml
+cp /usr/share/jenkins/ref/settings.xml $JENKINS_HOME/.m2/
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
 # So the initial JENKINS-HOME is set with expected content.
