@@ -41,8 +41,8 @@ RUN chmod ugo+x /usr/local/bin/jenkinsInit.sh
 # Create an alternate maven repository location for jenkins
 RUN mkdir -p /var/jenkins_m2repo
 
-# Copy the settings.xml to the unmounted new repo dir, later to be copied to the standard .m2 location to instruct maven to use this new repo location
-COPY settings.xml /var/jenkins_m2repo/
+# Copy the settings.xml to an unmounted dir temporarily, later to be copied to the standard .m2 location to instruct maven to use the jenkins_m2repo dir
+COPY settings.xml /usr/share/jenkins/ref/settings_local.xml
 RUN \
    chown -R jenkins:jenkins /var/jenkins_m2repo && \
    chmod -R 766 /var/jenkins_m2repo
