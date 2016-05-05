@@ -141,6 +141,7 @@ RUN \
    ssh-keyscan -t rsa -f /root/.ssh/ssh_hosts >> /root/.ssh/known_hosts && \
    cp /root/.ssh/ssh_hosts /var/jenkins_ssh && \
    mkdir -p /var/lib/jenkins/.ssh && \
+   chown -R jenkins:jenkins /var/lib/jenkins/.ssh && \
    cp /root/.ssh/ssh_hosts /var/lib/jenkins/.ssh
 
 # Overriding the target url for jenkins plugins because of timeout issues probably due to mirroring
