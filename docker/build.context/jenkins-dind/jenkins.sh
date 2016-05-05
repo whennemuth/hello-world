@@ -21,15 +21,21 @@ fi
 
 # make .ssh dir (-p flag will avoid error if dir already exists).
 # Then copy the mounted ssh content to the non-mounted ssh dir.
-mkdir -p /var/jenkins_home/.ssh
+mkdir -p /var/$JENKINS_HOME/.ssh
 cp /var/jenkins_ssh_mount/. /var/jenkins_ssh/ -R
-cp /var/jenkins_ssh_mount/. /var/jenkins_home/.ssh/ -R
+cp /var/jenkins_ssh_mount/. /var/$JENKINS_HOME/.ssh/ -R
 
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
 # chgrp users /var/jenkins_ssh -R
 chmod 700 /var/jenkins_ssh
 chmod 600 /var/jenkins_ssh/*
-chmod 600 /var/jenkins_home/.ssh/*
+chmod 600 /var/$JENKINS_HOME/.ssh/*
+
+# make .m2 dir and copy settings.xml to it
+mkdir -p $JENKINS_HOME/.m2
+if [ -! -f $JENKINS_HOME/.m2/setting.xml ] ; then
+   cp /var/jenkins_m2repo/settings.xml $JENKINS_HOME/.m2
+fi
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
 # So the initial JENKINS-HOME is set with expected content.
@@ -51,7 +57,7 @@ copy_reference_file() {
 		[[ ${rel} == plugins/*.jpi ]] && touch "$JENKINS_HOME/${rel}.pinned"
 	fi;
 }
-: ${JENKINS_HOME:="/var/jenkins_home"}
+: ${JENKINS_HOME:="/var/jenkins_home_dind"}
 export -f copy_reference_file
 touch "${COPY_REFERENCE_FILE_LOG}" || (echo "Can not write to ${COPY_REFERENCE_FILE_LOG}. Wrong volume permissions?" && exit 1)
 echo "--- Copying files at $(date)" >> "$COPY_REFERENCE_FILE_LOG"
