@@ -30,8 +30,8 @@ chmod 600 /var/jenkins_home/.ssh/*
 
 # make .m2 dir and copy settings.xml to it
 mkdir -p /var/jenkins_home/.m2
-if [ -! -f /var/jenkins_home/.m2/setting.xml ] ; then
+# if [ -! -f /var/jenkins_home/.m2/setting.xml ] ; then
    cp /usr/share/jenkins/ref/settings_local.xml /var/jenkins_home/.m2/settings.xml
-fi
+# fi
 
 source jenkins.sh

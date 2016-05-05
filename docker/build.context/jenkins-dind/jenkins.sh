@@ -33,9 +33,9 @@ chmod 600 /var/$JENKINS_HOME/.ssh/*
 
 # make .m2 dir and copy settings.xml to it
 mkdir -p $JENKINS_HOME/.m2
-if [ -! -f $JENKINS_HOME/.m2/setting.xml ] ; then
+# if [ -! -f $JENKINS_HOME/.m2/setting.xml ] ; then
    cp /usr/share/jenkins/ref/settings_local.xml $JENKINS_HOME/.m2/settings.xml
-fi
+# fi
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
 # So the initial JENKINS-HOME is set with expected content.
