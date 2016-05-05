@@ -29,13 +29,11 @@ cp /var/jenkins_ssh_mount/. /var/$JENKINS_HOME/.ssh/ -R
 # chgrp users /var/jenkins_ssh -R
 chmod 700 /var/jenkins_ssh
 chmod 600 /var/jenkins_ssh/*
-chmod 600 /var/$JENKINS_HOME/.ssh/*
+chmod 600 $JENKINS_HOME/.ssh/*
 
 # make .m2 dir and copy settings.xml to it
 mkdir -p $JENKINS_HOME/.m2
-# if [ -! -f $JENKINS_HOME/.m2/setting.xml ] ; then
-   cp /usr/share/jenkins/ref/settings_local.xml $JENKINS_HOME/.m2/settings.xml
-# fi
+cp /usr/share/jenkins/ref/settings_local.xml $JENKINS_HOME/.m2/settings.xml
 
 # Copy files from /usr/share/jenkins/ref into $JENKINS_HOME
 # So the initial JENKINS-HOME is set with expected content.
@@ -57,7 +55,7 @@ copy_reference_file() {
 		[[ ${rel} == plugins/*.jpi ]] && touch "$JENKINS_HOME/${rel}.pinned"
 	fi;
 }
-: ${JENKINS_HOME:="/var/jenkins_home_dind"}
+: ${JENKINS_HOME:="/var/jenkins_home"}
 export -f copy_reference_file
 touch "${COPY_REFERENCE_FILE_LOG}" || (echo "Can not write to ${COPY_REFERENCE_FILE_LOG}. Wrong volume permissions?" && exit 1)
 echo "--- Copying files at $(date)" >> "$COPY_REFERENCE_FILE_LOG"
