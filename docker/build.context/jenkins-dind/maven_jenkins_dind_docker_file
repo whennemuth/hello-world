@@ -29,8 +29,8 @@ RUN wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add 
 RUN sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
 RUN apt-get update && apt-get install -y zip supervisor jenkins && rm -rf /var/lib/apt/lists/*
 RUN usermod -a -G docker jenkins
-ENV JENKINS_HOME /var/jenkins_home
-VOLUME /var/jenkins_home
+ENV JENKINS_HOME /var/jenkins_home_dind
+VOLUME /var/jenkins_home_dind
 
 # Install Docker Compose
 RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
@@ -43,6 +43,20 @@ EXPOSE 8080
 
 
 # Start kuali-jenkins-dind additions...
+
+# Build maven into the image.
+ENV MAVEN_VERSION 3.3.9
+RUN mkdir -p /usr/share/maven \
+  && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+    | tar -xzC /usr/share/maven --strip-components=1 \
+  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+ENV MAVEN_HOME /usr/share/maven
+
+# Install nodejs and npm
+RUN \
+   apt-get update && \
+   apt-get install -y nodejs && \
+   apt-get install -y npm
 
 ARG user=jenkins
 ARG group=jenkins
@@ -77,20 +91,6 @@ ENV JAVA_OPTS="-Xmx8192m"
 
 USER root
 
-# Build maven into the image.
-ENV MAVEN_VERSION 3.3.9
-RUN mkdir -p /usr/share/maven \
-  && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
-    | tar -xzC /usr/share/maven --strip-components=1 \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-ENV MAVEN_HOME /usr/share/maven
-
-# Install nodejs and npm
-RUN \
-   apt-get update && \
-   apt-get install -y nodejs && \
-   apt-get install -y npm
-
 # Copy selected system settings files to JENKINS_HOME so they do not have to be set through jenkins admin console.
 # Jenkins will transfer these files to JENKINS_HOME, but we cannot transfer them there directly with COPY because
 # once a volume has been declared with the VOLUME instruction, you cannot copy anything there.
@@ -117,10 +117,19 @@ RUN \
 # COPY jenkins.sh /usr/local/bin/
 # RUN chmod ugo+x /usr/local/bin/jenkins.sh
 
-# Temporarily using an unmounted directory for the jenkins workspaces (builds are having permissions problems on Virtualbox mounted drives)
+# Create an alternate maven repository location for jenkins
 RUN \
-   mkdir -p /var/jenkins_workspace && \
-   chmod -R 777 /var/jenkins_workspace
+   mkdir -p /var/jenkins_m2repo && \
+   mkdir -p $JENKINS_HOME/.m2 && \
+   chown -R jenkins:jenkins $JENKINS_HOME/.m2 && \
+   chown -R jenkins:jenkins /var/jenkins_m2repo && \
+   chmod -R 766 /var/jenkins_m2repo
+
+# Copy the settings.xml to the standard .m2 location to instruct maven to use the new repo location
+COPY setting.xml $JENKINS_HOME/.m2
+RUN \
+   chmod -R 766 $JENKINS_HOME/.m2 && \
+   chown jenkins:jenkins $JENKINS_HOME/.m2/settings.xml
 
 # Turn off hostname hashing so that the host names are human-readable in the known_hosts files
 RUN sed -i -- 's/HashKnownHosts yes/HashKnownHosts no/g' /etc/ssh/ssh_config
