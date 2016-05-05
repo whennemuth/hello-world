@@ -21,9 +21,9 @@ fi
 
 # make .ssh dir (-p flag will avoid error if dir already exists).
 # Then copy the mounted ssh content to the non-mounted ssh dir.
-mkdir -p /var/$JENKINS_HOME/.ssh
+mkdir -p $JENKINS_HOME/.ssh
 cp /var/jenkins_ssh_mount/. /var/jenkins_ssh/ -R
-cp /var/jenkins_ssh_mount/. /var/$JENKINS_HOME/.ssh/ -R
+cp /var/jenkins_ssh_mount/. $JENKINS_HOME/.ssh/ -R
 
 # Change permission level so that ssh agent does not complain about the ssh key being "too open".
 # chgrp users /var/jenkins_ssh -R
