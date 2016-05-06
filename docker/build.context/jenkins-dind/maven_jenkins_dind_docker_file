@@ -168,6 +168,10 @@ ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
+# For some reason the newer version of jenkins does not set JAVA_HOME
+# TODO: This should be replaced with java 8
+ENV JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
+
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord"]
