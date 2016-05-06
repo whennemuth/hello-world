@@ -17,3 +17,5 @@ token-macro:1.12.1
 publish-over-ssh:1.14
 preSCMbuildstep:0.3
 maven-plugin:2.12.1
+script-security:1.13
+matrix-project:1.6
