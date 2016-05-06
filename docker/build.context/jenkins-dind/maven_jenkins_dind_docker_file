@@ -44,6 +44,13 @@ EXPOSE 8080
 
 # Start kuali-jenkins-dind additions...
 
+# Install the java 8 jdk
+RUN \
+   wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz && \
+   tar -zxvf jdk-8u92-linux-x64.tar.gz -C /usr/lib/jvm && \
+   rm jdk-8u92-linux-x64.tar.gz
+ENV JAVA_HOME="/usr/lib/jvm/jdk1.8.0_92"
+
 # Build maven into the image.
 ENV MAVEN_VERSION 3.3.9
 RUN mkdir -p /usr/share/maven \
@@ -167,10 +174,6 @@ ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
-
-# For some reason the newer version of jenkins does not set JAVA_HOME
-# TODO: This should be replaced with java 8
-ENV JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
 
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
