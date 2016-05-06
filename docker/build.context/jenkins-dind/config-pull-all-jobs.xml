@@ -17,7 +17,7 @@ If you have made any changes to any jobs, push those first before running this j
         <hudson.model.StringParameterDefinition>
           <name>REPO</name>
           <description>What is the url of the git repo where the jenkins jobs are stored?</description>
-          <defaultValue>git@github.com:whennemuth/kc-jenkins-jobs.git</defaultValue>
+          <defaultValue>git@github.com:whennemuth/kc-jenkins-dind-jobs.git</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
