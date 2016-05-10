@@ -55,6 +55,15 @@
 	align: center;
 }
 
+.smallnote {
+	font-family: arial;
+	font-size: 10px;
+	display:block;
+	padding-top: 5px;
+	padding-bottom: 10px;
+	padding-left:10px;
+	width:180px;
+}
 th {
 	background-color: #cccccc;
 }

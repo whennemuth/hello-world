@@ -22,6 +22,20 @@ public class JAXBConfigImpl {
 		new String[]{"kc.schemaspy.enabled", "false"}		
 	};
 	
+	private static final String[][] mysqlprops_docker_linked_db = new String[][]{
+		new String[]{"application.host", "kuali_db_mysql"},
+		new String[]{"app.context.name", "kc"},
+		new String[]{"datasource.driver.name", "com.mysql.jdbc.Driver"},
+		new String[]{"datasource.url","jdbc:mysql://kuali_db_mysql:3306/kualicoeusdb?"
+				+ "verifyServerCertificate=false"
+				+ "&amp;requireSSL=false"
+				+ "&amp;useSSL=false"},
+		new String[]{"datasource.username", "root"},
+		new String[]{"datasource.password", ""},
+		new String[]{"datasource.ojb.platform", "MySQL"},
+		new String[]{"kc.schemaspy.enabled", "false"}		
+	};
+	
 	private static final String[][] mysqlprops_docker = new String[][]{
 		new String[]{"application.host", "ec2-52-37-253-82.us-west-2.compute.amazonaws.com"},
 		new String[]{"app.context.name", "kc"},
@@ -113,6 +127,9 @@ public class JAXBConfigImpl {
 			break;
 		case MYSQL_LOCAL_DOCKER:
 			props = mysqlprops_local_docker;
+			break;
+		case MYSQL_DOCKER_DB_LINK:
+			props = mysqlprops_docker_linked_db;
 			break;
 		case ORACLE:
 			props = oracleprops;

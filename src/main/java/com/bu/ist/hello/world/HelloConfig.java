@@ -9,7 +9,33 @@ import org.springframework.util.ResourceUtils;
 public class HelloConfig {
 
 	public static enum DBTYPE {
-		MYSQL, MYSQL_DOCKER, MYSQL_LOCAL_DOCKER, ORACLE, ORACLE_DOCKER
+		MYSQL("Database query (mysql local) ",
+				"Use JDBC data for a connection to a local mysql database"), 
+		MYSQL_DOCKER("Database query (mysql docker) ",
+				"Use JDBC data for a connection to a mysql database located on an AWS ec2 instance from a helloworld app running in a docker container on another ec2 instance"), 
+		MYSQL_DOCKER_DB_LINK("Database query (mysql docker linked)",
+				"Use JDBC data for a connection to a mysql database hosted inside a running docker container on the same AWS ec2 instance from  a helloworld app running in a separate docker container"), 
+		MYSQL_LOCAL_DOCKER("Database query (mysql local docker)",
+				"Use JDBC data for a connection to a local mysql database from a helloworld app running in a docker container hosted in virtualbox running a linux image"), 
+		ORACLE("Database query (oracle local) ",
+				"Use JDBC data for a connection to a local oracle database"), 
+		ORACLE_DOCKER("Database query (oracle docker)",
+				"Use JDBC data for a connection to a oracle database located on an AWS ec2 instance from a helloworld app running in a docker container on another ec2 instance");
+		private String shortDescription;
+		private String description;
+		private DBTYPE(String shortDescription, String description) {
+			this.shortDescription = shortDescription;
+			this.description = description;
+		}
+		public String getShortDescription() {
+			return shortDescription;
+		}
+		public String getDescription() {
+			return description;
+		}
+		public String getName() {
+			return this.name();
+		}
 	};
 
 	private static final String CONFIG_FILE_PATH = ResourceUtils.CLASSPATH_URL_PREFIX + "META-INF/kc-config.xml";
