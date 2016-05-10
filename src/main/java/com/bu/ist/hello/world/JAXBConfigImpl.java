@@ -23,15 +23,15 @@ public class JAXBConfigImpl {
 	};
 	
 	private static final String[][] mysqlprops_docker = new String[][]{
-		new String[]{"application.host", "kuali_db_mysql"},
+		new String[]{"application.host", "ec2-52-37-253-82.us-west-2.compute.amazonaws.com"},
 		new String[]{"app.context.name", "kc"},
 		new String[]{"datasource.driver.name", "com.mysql.jdbc.Driver"},
-		new String[]{"datasource.url","jdbc:mysql://kuali_db_mysql:3306/kualicoeusdb?"
+		new String[]{"datasource.url","jdbc:mysql://ec2-52-25-226-38.us-west-2.compute.amazonaws.com:3306/kualicoeusdb?"
 				+ "verifyServerCertificate=false"
 				+ "&amp;requireSSL=false"
 				+ "&amp;useSSL=false"},
-		new String[]{"datasource.username", "root"},
-		new String[]{"datasource.password", ""},
+		new String[]{"datasource.username", "warren"},
+		new String[]{"datasource.password", "mypassword123"},
 		new String[]{"datasource.ojb.platform", "MySQL"},
 		new String[]{"kc.schemaspy.enabled", "false"}		
 	};
