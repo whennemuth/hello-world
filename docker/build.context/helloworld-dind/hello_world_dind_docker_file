@@ -8,7 +8,7 @@ ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworld.war"
 USER root
 
 # Copy in the hello-world war file
-COPY helloworld.war $TARGET_WAR
+# COPY helloworld.war $TARGET_WAR
 RUN cp -f /helloworld.war $TARGET_WAR
 
 CMD ["${TOMCAT_LOCATION}/bin/catalina.sh", "run"]
