@@ -2,15 +2,10 @@ FROM tomcat:8-jre8
 MAINTAINER Warren
 
 ENV JAVA_OPTS="-Xmx8192m"
-ENV REGISTRY="ec2-52-25-226-38.us-west-2.compute.amazonaws.com:5000"
-ENV CERT_DIR="/etc/docker/certs.d/${REGISTRY}"
 ENV TOMCAT_LOCATION="/usr/local/tomcat"
 ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworld.war"
 
 USER root
-
-# Set up TLS access to the registry. This directory will be mount-binded to the cert directory of the host with the run command
-RUN mkdir -p $CERT_DIR
 
 # Copy in the hello-world war file
 COPY helloworld.war $TARGET_WAR
