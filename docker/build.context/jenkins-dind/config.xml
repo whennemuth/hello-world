@@ -71,6 +71,7 @@ Builds fast, good for testing non-kuali specific ideas.</description>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
         <string>deploy-war-file</string>
+        <string>deploy-war-file-dind</string>
         <string>deploy-war-file-warren-local</string>
       </jobNames>
       <jobFilters/>

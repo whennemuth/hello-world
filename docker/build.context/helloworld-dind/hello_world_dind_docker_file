@@ -3,12 +3,12 @@ MAINTAINER Warren
 
 ENV JAVA_OPTS="-Xmx8192m"
 ENV TOMCAT_LOCATION="/usr/local/tomcat"
-ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworld.war"
+ENV SOURCE_WAR="localhost:8080/jenkinsdind/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war"
+ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworlddind.war"
 
 USER root
 
-# Copy in the hello-world war file
-# COPY helloworld.war $TARGET_WAR
-RUN cp -f /helloworld.war $TARGET_WAR
+# Copy in the hello-world war file into the image from its jenkins build location
+RUN curl -sSL $SOURCE_WAR > $TARGET_WAR
 
 CMD ["${TOMCAT_LOCATION}/bin/catalina.sh", "run"]
