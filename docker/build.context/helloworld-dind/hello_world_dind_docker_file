@@ -10,7 +10,7 @@ ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworld.war"
 USER root
 
 # Set up TLS access to the registry. This directory will be mount-binded to the cert directory of the host with the run command
-RUN mkdir $CERT_DIR
+RUN mkdir -p $CERT_DIR
 
 # Copy in the hello-world war file
 COPY helloworld.war $TARGET_WAR
