@@ -175,6 +175,9 @@ ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 # If not mounting a volume, you can still check the log from outside the container as follows:
 # exec jenkins-master tail -f /var/log/jenkins/jenkins.log
 
+# Create a directory to be mounted to the container host directory where the certs are kept for TLS
+RUN mkdir -p /etc/docker/certs.d
+
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord"]
