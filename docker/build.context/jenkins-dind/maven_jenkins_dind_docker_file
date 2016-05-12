@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Decheng Zhang <killercentury@gmail.com>
+MAINTAINER Warren H
 
 # Let's start with some basic stuff.
 RUN apt-get update -qq && apt-get install -qqy \
