@@ -3,7 +3,7 @@ MAINTAINER Warren
 
 ENV JAVA_OPTS="-Xmx8192m"
 ENV TOMCAT_LOCATION="/usr/local/tomcat"
-ENV SOURCE_WAR="localhost:8080/jenkinsdind/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war"
+ENV SOURCE_WAR="127.0.0.1:8080/jenkinsdind/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war"
 ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworlddind.war"
 
 USER root
