@@ -20,4 +20,4 @@ RUN \
    SOURCE_WAR="http://${JENKINS_URL}/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war" && \
    curl -sSL $SOURCE_WAR > $TARGET_WAR
 
-CMD ["${TOMCAT_LOCATION}/bin/catalina.sh", "run"]
+CMD ${TOMCAT_LOCATION}/bin/catalina.sh run
