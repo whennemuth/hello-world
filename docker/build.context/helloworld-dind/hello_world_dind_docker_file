@@ -16,7 +16,7 @@ RUN chmod a+w -R $TOMCAT_LOCATION/webapps
 # (NOTE: 169.254.169.254 is a standard AWS ip for EC2 instance metadata)
 RUN \
    JENKINS_HOST=curl http://169.254.169.254/latest/meta-data/public-hostname && \
-   JENKINS_URL="http://${JENKINS_HOST}:${JENKINS_PORT}/${JENKINS_ROOT}" && \
+   JENKINS_URL="${JENKINS_HOST}:${JENKINS_PORT}/${JENKINS_ROOT}" && \
    SOURCE_WAR="${JENKINS_ROOT}/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war" && \
    curl -sSL $SOURCE_WAR > $TARGET_WAR
 
