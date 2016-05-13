@@ -17,7 +17,7 @@ RUN chmod a+w -R $TOMCAT_LOCATION/webapps
 RUN \
    # JENKINS_HOST=curl 169.254.169.254/latest/meta-data/public-hostname && \
    # JENKINS_URL="${JENKINS_HOST}:${JENKINS_PORT}/${JENKINS_ROOT}" && \
-   SOURCE_WAR="http://${JENKINS_URL}/view/Hello%20World/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war" && \
+   SOURCE_WAR="http://${JENKINS_URL}/job/deploy-war-file-dind/ws/target/hello-world-0.0.1-SNAPSHOT.war" && \
    curl -sSL $SOURCE_WAR > $TARGET_WAR
 
 CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
