@@ -125,13 +125,18 @@ RUN \
 # RUN chmod ugo+x /usr/local/bin/jenkins.sh
 
 # Create an alternate maven repository location for jenkins
-RUN mkdir -p /var/jenkins_m2repo
+RUN \
+   mkdir -p /var/jenkins_m2repo && \
+   mkdir -p /var/lib/jenkins/.m2
 
 # Copy the settings.xml to the unmounted new repo dir, later to be copied to the standard .m2 location to instruct maven to use this new repo location
 COPY settings.xml /usr/share/jenkins/ref/
 RUN \
+   cp /usr/share/jenkins/ref/settings.xml /var/lib/jenkins/.m2/settings.xml && \
    chown -R jenkins:jenkins /var/jenkins_m2repo && \
-   chmod -R 766 /var/jenkins_m2repo
+   chown -R jenkins:jenkins /var/lib/jenkins/.m2 && \
+   chmod -R 766 /var/jenkins_m2repo && \
+   chmod -R 766 /var/lib/jenkins/.m2
 
 # Turn off hostname hashing so that the host names are human-readable in the known_hosts files
 RUN sed -i -- 's/HashKnownHosts yes/HashKnownHosts no/g' /etc/ssh/ssh_config

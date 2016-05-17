@@ -97,6 +97,7 @@ Builds fast, good for testing non-kuali specific ideas.</description>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
         <string>kc</string>
         <string>kc-api</string>
+        <string>kc-dind</string>
         <string>kc-rice</string>
         <string>kc-s2sgen</string>
         <string>schemaspy</string>
