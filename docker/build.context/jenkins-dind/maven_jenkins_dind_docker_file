@@ -35,7 +35,7 @@ ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_VERSION 3.3.9
 ENV JENKINS_HOME /var/jenkins_home
 ENV JENKINS_USER_HOME = /var/lib/jenkins
-ENV JENKINS_REF /usr/share/jenkins/ref
+ENV JENKINS_REF = /usr/share/jenkins/ref
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # Overrides the JENKINS_UC variable set in the parent docker file.
 # Changes the target url for jenkins plugins because of timeout issues probably due to mirroring.
@@ -137,7 +137,7 @@ RUN \
 # Copy the settings.xml to the unmounted new repo dir, later to be copied to the standard .m2 location to instruct maven to use this new repo location
 COPY settings.xml ${JENKINS_REF}/
 RUN \
-   cp ${JENKINS_REF}/settings.xml ${JENKINS_USER_HOME}/.m2/ && \
+   cp ${JENKINS_REF}/settings.xml ${JENKINS_USER_HOME}/.m2/settings.xml && \
    chown -R jenkins:jenkins /var/jenkins_m2repo && \
    chown -R jenkins:jenkins ${JENKINS_USER_HOME}/.m2 && \
    chmod -R 766 /var/jenkins_m2repo && \
