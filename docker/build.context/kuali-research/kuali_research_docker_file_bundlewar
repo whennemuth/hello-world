@@ -31,8 +31,9 @@ COPY mysql-connector-java-5.1.38-bin.jar /usr/local/tomcat/lib
 COPY context.xml /usr/local/tomcat/conf/context.xml
 
 # Copy the kc-config.xml file to the user directory
-COPY kc-config.xml /root/kuali/main/dev
-COPY kc-config.xml /root/kuali/main/config
+# DISABLING: the xml file will be exposed by mounting a directory on the host that contains it.
+#COPY kc-config.xml /root/kuali/main/dev
+#COPY kc-config.xml /root/kuali/main/config
 
 # 8080 is already exposed in parent image. Expose port 80 as well.
 EXPOSE 80
