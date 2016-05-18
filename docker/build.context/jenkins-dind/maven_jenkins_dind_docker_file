@@ -137,7 +137,7 @@ RUN \
 # Copy the settings.xml to the unmounted new repo dir, later to be copied to the standard .m2 location to instruct maven to use this new repo location
 COPY settings.xml ${JENKINS_REF}/
 RUN \
-   cp ${JENKINS_REF}/settings.xml ${JENKINS_USER_HOME}/.m2/settings.xml && \
+   cp ${JENKINS_REF}/settings.xml ${JENKINS_USER_HOME}/.m2/ && \
    chown -R jenkins:jenkins /var/jenkins_m2repo && \
    chown -R jenkins:jenkins ${JENKINS_USER_HOME}/.m2 && \
    chmod -R 766 /var/jenkins_m2repo && \
