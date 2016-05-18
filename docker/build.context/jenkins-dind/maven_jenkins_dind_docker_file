@@ -34,8 +34,8 @@ ENV JAVA_OPTS="-Xmx8192m"
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_VERSION 3.3.9
 ENV JENKINS_HOME /var/jenkins_home
-ENV JENKINS_USER_HOME = /var/lib/jenkins
-ENV JENKINS_REF = /usr/share/jenkins/ref
+ENV JENKINS_USER_HOME /var/lib/jenkins
+ENV JENKINS_REF /usr/share/jenkins/ref
 ENV JENKINS_OPTS="--prefix=/jenkinsdind --logfile=/var/log/jenkins/jenkins.log"
 # Overrides the JENKINS_UC variable set in the parent docker file.
 # Changes the target url for jenkins plugins because of timeout issues probably due to mirroring.
