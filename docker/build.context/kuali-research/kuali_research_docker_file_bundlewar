@@ -6,10 +6,9 @@ MAINTAINER Warren
 #       Also, you can override this setting by including it in an -e switch of the docker container run command.
 ENV JAVA_OPTS="-Xmx3072m -Xms512m -XX:MaxPermSize=256m"
 ENV TOMCAT_LOCATION="/usr/local/tomcat"
-ENV ="${TOMCAT_LOCATION}/webapps/kc.war"
+ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/kc.war"
 
-ARG JENKINS_URL
-ARG WAR_FILE
+ARG SOURCE_WAR
 
 USER root
 
@@ -47,6 +46,6 @@ RUN chmod a+w -R $TOMCAT_LOCATION/webapps
 RUN \
    # JENKINS_HOST=curl 169.254.169.254/latest/meta-data/public-hostname && \
    # SOURCE_WAR="${JENKINS_HOST}:${JENKINS_PORT}/${JENKINS_ROOT}/job/kc-dind/ws/coeus-webapp/target/[a-z].war" && \
-   curl -sSL "${JENKINS_URL}/${WAR_FILE}" > $TARGET_WAR
+   curl -sSL $SOURCE_WAR > $TARGET_WAR
 
 CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
