@@ -18,9 +18,6 @@ RUN \
    mkdir -p /root/kuali/main/config && \
    mkdir -p /root/kuali/main/logs/printing
 
-# Copy the setenv.sh file into the the catalina bin directory to increase the java heap size.
-# COPY setenv.sh /usr/local/tomcat/bin
-
 # Copy the spring intrumentation jar file to the tomcat lib directory
 COPY spring-instrument-tomcat-3.2.13.RELEASE.jar /usr/local/tomcat/lib
 
