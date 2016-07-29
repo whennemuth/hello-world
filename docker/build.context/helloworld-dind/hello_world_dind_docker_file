@@ -1,7 +1,8 @@
 FROM tomcat:8-jre8
 MAINTAINER Warren
 
-ENV JAVA_OPTS="-Xmx8192m"
+# ENV JAVA_OPTS="-Xmx8192m"
+ENV JAVA_OPTS="-Xmx1024m"
 ENV TOMCAT_LOCATION="/usr/local/tomcat"
 ENV TARGET_WAR="${TOMCAT_LOCATION}/webapps/helloworlddind.war"
 
