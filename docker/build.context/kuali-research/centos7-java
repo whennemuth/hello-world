@@ -1,0 +1,45 @@
+#################################################################################################
+#
+#  Modelled from: https://hub.docker.com/r/harisekhon/centos-java/~/dockerfile/
+#
+#  For explanation of $pkg below see: http://openjdk.java.net/install/
+#
+#  Example builds (this file saved as "bu-centos7-java"):
+#    jdk8: docker build -f bu-centos7-java --build-arg JAVA_VERSION=8 --build-arg JAVA_RELEASE=JDK .
+#    jre7: docker build -f bu-centos7-java --build-arg JAVA_VERSION=7 --build-arg JAVA_RELEASE=JRE .
+#
+#  Run container detached:
+#    docker run -t -d --name centosjdk bu-centos7-java
+#    NOTE: you cannot run without -t because all containers exit automatically with a continually
+#          running process (/bin/bash is not a continually running background process).
+#  Run container interactive:
+#    docker run -t -d --name centosjdk [image id]
+#    docker exec -ti centosjdk bash
+#    or...
+#    docker run -ti --name centosjdk [image id] bash
+#
+#################################################################################################
+
+FROM centos:7
+MAINTAINER Warren H (wrh@bu.edu)
+
+LABEL Description="Java + CentOS (OpenJDK)"
+
+ARG JAVA_VERSION=7
+ARG JAVA_RELEASE=JDK
+
+ENV JAVA_HOME=/usr
+
+RUN \
+    pkg="java-1.$JAVA_VERSION.0-openjdk"; \
+    if [ "$JAVA_RELEASE" = "JDK" ]; then \
+        pkg="$pkg-devel"; \
+    else \
+        pkg="$pkg-headless"; \
+    fi; \
+    yum install -y "$pkg" && \
+    yum clean all
+
+COPY profile.d/java.sh /etc/profile.d/
+
+CMD /bin/bash
