@@ -1,0 +1,92 @@
+#################################################################################################
+#
+#  For explanation of $pkg below see: http://openjdk.java.net/install/
+#
+#  Example builds (this file saved as "bu-centos7-java"):
+#    jdk8: docker build \
+#              -f bu-centos7-java \
+#              -t bu-ist/centos7-java-tomcat \
+#              --build-arg JAVA_VERSION=8 \
+#              --build-arg JAVA_RELEASE=JDK \
+#              --build-arg TOMCAT_VERSION=7 .
+#    jre7: docker build \
+#              -f bu-centos7-java \
+#              -t bu-ist/centos7-java-tomcat \
+#              --build-arg JAVA_VERSION=7 \
+#              --build-arg JAVA_RELEASE=JRE \
+#              --build-arg TOMCAT_VERSION=7 .
+#
+#  Run container detached:
+#    docker run -t -d --name centosjdk bu-centos7-java
+#    NOTE: you cannot run without -t because all containers exit automatically without a continually
+#          running process (/bin/bash is not a continually running background process).
+#  Run container interactive:
+#    docker run -t -d --name tomcatcontainer bu-ist/centos7-java-tomcat
+#    docker exec -ti tomcatcontainer bash
+#    or...
+#    docker run -ti --name tomcatcontainer bu-ist/centos7-java-tomcat bash
+#
+#################################################################################################
+
+FROM centos:7
+MAINTAINER Warren H (wrh@bu.edu)
+
+ARG JAVA_VERSION=8
+ARG JAVA_RELEASE=JDK
+# Centos only comes with RPM for Tomcat7 and calls it "tomcat". 
+# Restore this arg if this changes and RPMS are available as "tomcat7", "tomcat8", etc.
+# ARG TOMCAT_VERSION=7
+ENV TOMCAT_VERSION=""
+
+LABEL \
+    Vendor="Boston University" \
+    Department=IST \
+    Platform="Centos 7" \
+    OpenJDK\ Version="$JAVA_VERSION" \
+    OpenJDK\ Release="$JAVA_RELEASE" \
+    Tomcat\ Version="$TOMCAT_VERSION"
+
+ENV JAVA_HOME=/usr
+ENV container docker
+
+# Activate systemd
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+
+# Prepare systemd for use and install initscripts for older service and chkconfig
+RUN \
+    yum -y install httpd && yum clean all; \
+    systemctl enable httpd.service; \
+    yum install -y initscripts
+
+# Install Java
+RUN \
+    echo "Building Boston University centos7-java image"; \
+    pkg="java-1.$JAVA_VERSION.0-openjdk"; \
+    if [ "$JAVA_RELEASE" = "JDK" ]; then \
+        pkg="$pkg-devel"; \
+    else \
+        pkg="$pkg-headless"; \
+    fi; \
+    yum install -y "$pkg" && \
+    yum clean all
+
+# Install Tomcat
+RUN \
+    echo "Building tomcat $TOMCAT_VERSION"; \
+    yum update -y && \
+    yum install -y "tomcat$TOMCAT_VERSION" && \
+    yum clean all
+
+EXPOSE 80
+
+EXPOSE 8080
+
+CMD ["/usr/sbin/init"]
