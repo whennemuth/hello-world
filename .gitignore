@@ -12,4 +12,6 @@
 /_maven.repositories
 /target/
 /eclipse_build.xml
-/README.txt
+/README.txt**/kc.tar
+*/**/kc.tar
+*/**/kc.war

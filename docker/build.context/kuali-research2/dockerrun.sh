@@ -1,13 +1,12 @@
 docker run \
-   -ti \
-   -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+   -d \
    -p 8080:8080 \
-   -p 80:80 \
    --restart unless-stopped \
    --name kccontainer2 \
-   --privileged \
-   --security-opt seccomp=unconfined \
-   bu-ist/centos7-java-tomcat
+   -v /opt/kuali/main/config:/opt/kuali/main/config \
+   -v /var/log/kuali/printing:/opt/kuali/logs/printing \
+   -v /var/log/kuali/tomcat:/var/log/tomcat \
+   bu-ist/centos7-kuali-research
    
 
 #bu-ist/centos7-java-tomcatdocker run \
