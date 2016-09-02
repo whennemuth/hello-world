@@ -3,6 +3,7 @@ package com.bu.ist.hello.world;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -119,6 +120,24 @@ public class Util {
 			}
 		}		
 	}
+
+	/**
+	 * Get a byte array from an input stream.
+	 * @param in
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] inputStreamToByteArray(InputStream in) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(2^16);
+		BufferedOutputStream buf = new BufferedOutputStream(bos);
+		int next = in.read();
+		while (next > -1) {
+		    buf.write(next);
+		    next = in.read();
+		}
+		bos.flush();
+		return bos.toByteArray();
+	}
 	
 	/**
 	 * Get the content of an inputstream as a string.
@@ -150,6 +169,11 @@ public class Util {
 				}
 			}
 		}		
+	}
+	
+	public static String getClassPathResourceContent(String resource) {
+		InputStream in = Util.class.getClassLoader().getResourceAsStream(resource);
+		return getStringFromInputStream(in);
 	}
 	
 	/**
